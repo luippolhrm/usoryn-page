@@ -40,7 +40,11 @@
   .nav .brand{
     font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;
     letter-spacing:-.01em;white-space:nowrap;display:flex;align-items:center;gap:9px;
+    text-decoration:none;color:inherit;transition:.15s;border-radius:8px;padding:5px 9px;margin-left:-9px;
   }
+  a.brand:hover{background:var(--mist)}
+  .nav .brand .back{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;
+    color:var(--jade);line-height:1;margin-right:1px}
   .nav .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--jade);
     box-shadow:0 0 0 3px var(--jade-soft);flex:none}
   .nav ul{list-style:none;display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
@@ -423,7 +427,7 @@
 <!-- ===================== NAV ===================== -->
 <nav class="nav">
   <div class="wrap">
-    <span class="brand"><span class="dot"></span>Usoryn Bravoviento</span>
+    <a class="brand" href="../index.html" title="Volver a las fichas de la mesa"><span class="back">←</span><span class="dot"></span>Usoryn Bravoviento</a>
     <ul>
       <li><a href="#resumen">Resumen</a></li>
       <li><a href="#combate">Combate</a></li>
