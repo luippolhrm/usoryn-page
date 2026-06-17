@@ -24,9 +24,8 @@
     background:var(--paper);color:var(--ink);line-height:1.55;
     -webkit-font-smoothing:antialiased;min-height:100vh;
   }
-  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
 
-  /* hero */
   .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
     background:
       radial-gradient(120% 140% at 88% -10%, rgba(61,125,202,.10), transparent 55%),
@@ -46,50 +45,66 @@
   .hero p{font-family:'Fraunces',serif;font-style:italic;font-weight:500;color:var(--ink-2);
     font-size:1.05rem;margin-top:16px;max-width:50ch}
 
-  main{padding:40px 0 60px}
+  main.wrap{padding-top:46px;padding-bottom:60px}
 
-  /* player section */
-  .player{margin-bottom:34px}
-  .player-head{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-  .player-head .av{width:38px;height:38px;border-radius:50%;flex:none;
+  .player{background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+  .player-head{display:flex;align-items:center;gap:13px;width:100%;cursor:pointer;
+    padding:16px 20px;border:none;background:none;text-align:left;font-family:inherit;
+    transition:background .15s}
+  .player-head:hover{background:var(--mist)}
+  .player-head .av{width:36px;height:36px;border-radius:50%;flex:none;
     background:linear-gradient(135deg,var(--jade),var(--jade-d));color:#fff;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;
-    box-shadow:0 0 0 4px var(--jade-soft)}
-  .player-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;letter-spacing:-.01em}
-  .player-head .count{font-size:.78rem;color:var(--ink-2);background:var(--mist);
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;
+    box-shadow:0 0 0 3px var(--jade-soft)}
+  .player-head .nm{font-family:'Fraunces',serif;font-weight:600;font-size:1.35rem;letter-spacing:-.01em}
+  .player-head .count{font-size:.74rem;color:var(--ink-2);background:var(--mist);
     padding:2px 10px;border-radius:999px;font-weight:500}
-  .player-head .rule{flex:1;height:1px;background:var(--line)}
+  .player-head:hover .count{background:#fff}
+  .player-head .chev{margin-left:auto;flex:none;color:var(--jade-d);transition:transform .25s ease;
+    font-size:1.1rem;line-height:1}
+  .player.open .chev{transform:rotate(180deg)}
 
-  .chars{display:grid;grid-template-columns:1fr;gap:14px}
-  @media(min-width:640px){.chars{grid-template-columns:1fr 1fr}}
+  .player-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+  .player.open .player-body{grid-template-rows:1fr}
+  .player-body-inner{overflow:hidden}
+  .char-list{border-top:1px solid var(--line)}
 
-  .char{display:block;text-decoration:none;color:inherit;position:relative;
-    background:#fff;border:1px solid var(--line);border-radius:var(--r);
-    padding:16px 20px 18px;box-shadow:var(--shadow);transition:.18s;overflow:hidden}
-  .char::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
-    background:linear-gradient(180deg,var(--jade),var(--jade-d));opacity:.85}
-  a.char:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--line-2)}
-  .char-status{display:inline-block;font-size:.62rem;font-weight:600;
-    text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:999px;margin-bottom:9px}
+  .char{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;
+    padding:14px 20px;border-bottom:1px solid var(--line);transition:background .15s;position:relative}
+  .char:last-child{border-bottom:none}
+  a.char:hover{background:var(--jade-soft)}
+  .char .marker{width:8px;height:8px;border-radius:2px;flex:none;transform:rotate(45deg);
+    background:var(--jade)}
+  .char.pending-row .marker{background:var(--line-2)}
+  .char .info{min-width:0;flex:1}
+  .char .cn{font-family:'Fraunces',serif;font-weight:600;font-size:1.08rem;letter-spacing:-.01em;
+    line-height:1.2;display:block}
+  .char .meta{font-size:.8rem;color:var(--ink-2);margin-top:2px;
+    display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+  .char .meta .camp{display:inline-flex;align-items:center;gap:4px;color:var(--sky)}
+  .char .meta .camp::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--sky)}
+  .char .right{flex:none;display:flex;align-items:center;gap:12px}
+  .char-status{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+    padding:3px 9px;border-radius:999px;white-space:nowrap}
   .char-status.ready{background:var(--jade-soft);color:var(--jade-d)}
   .char-status.pending{background:#FBF0D8;color:var(--sand-d)}
-  .char-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;
-    letter-spacing:-.01em;line-height:1.12}
-  .char-sub{font-size:.86rem;color:var(--ink-2);margin-top:4px}
-  .char .go{margin-top:13px;font-size:.78rem;font-weight:600;color:var(--jade-d);
-    font-family:'Space Grotesk',sans-serif;display:flex;align-items:center;gap:5px}
-  span.char.pending-card{opacity:.72;cursor:default}
-  span.char.pending-card::before{background:var(--line-2);opacity:.6}
-  span.char.pending-card .go{color:var(--ink-2)}
+  .char .arrow{color:var(--jade-d);font-size:1.05rem;flex:none}
+  .char.pending-row{cursor:default}
+  .char.pending-row .cn{color:var(--ink-2)}
+  .char.pending-row .arrow{display:none}
 
-  footer{border-top:1px solid var(--line);padding:26px 0 40px;text-align:center}
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;text-align:center;margin-top:14px}
   footer .t{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-2);font-size:.92rem}
   footer .s{font-size:.72rem;color:var(--ink-2);opacity:.7;margin-top:6px}
 
   @media(max-width:560px){
     .wrap{padding:0 15px}.hero .wrap{padding:40px 15px 34px}
     .hero h1{font-size:2.1rem}
+    .char .right{gap:8px}
+    .char-status{font-size:.56rem;padding:2px 7px}
+    .player-head .nm{font-size:1.2rem}
   }
 </style>
 </head>
@@ -102,74 +117,101 @@
     <path d="M-20,210 C280,178 460,240 720,210 900,185 980,228 1040,205"/>
   </svg>
   <div class="wrap">
-    <div class="kicker">Campaña · D&amp;D 2024</div>
+    <div class="kicker">Mesa de juego &middot; D&amp;D 2024</div>
     <h1>Fichas de la Mesa</h1>
-    <p>Personajes de los héroes que surcan el viento. Elige un jugador y abre su ficha.</p>
+    <p>Personajes de los h&eacute;roes que surcan el viento. Elige un jugador para ver sus fichas.</p>
   </div>
 </header>
 
 <main class="wrap">
 
-  <!-- JUGADOR: Lucho -->
-  <section class="player">
-    <div class="player-head">
+  <!-- ===================== JUGADOR: Lucho ===================== -->
+  <div class="player">
+    <button class="player-head" onclick="togglePlayer(this)">
       <span class="av">L</span>
-      <h2>Lucho</h2>
+      <span class="nm">Lucho</span>
       <span class="count">3 personajes</span>
-      <span class="rule"></span>
-    </div>
-    <div class="chars">
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="player-body"><div class="player-body-inner">
+      <div class="char-list">
 
-      <a class="char" href="lucho/usoryn.html">
-        <span class="char-status ready">Ficha lista</span>
-        <div class="char-name">Usoryn Bravoviento</div>
-        <div class="char-sub">Halfling · Pícaro 1 / Explorador 5 (Cazador)</div>
-        <div class="go">Abrir ficha →</div>
-      </a>
+        <a class="char" href="lucho/usoryn.html">
+          <span class="marker"></span>
+          <span class="info">
+            <span class="cn">Usoryn Bravoviento</span>
+            <span class="meta">Halfling &middot; P&iacute;caro 1 / Explorador 5 (Cazador) <span class="camp">Campa&ntilde;a por definir</span></span>
+          </span>
+          <span class="right">
+            <span class="char-status ready">Lista</span>
+            <span class="arrow">&rarr;</span>
+          </span>
+        </a>
 
-      <span class="char pending-card">
-        <span class="char-status pending">Ficha pendiente</span>
-        <div class="char-name">Darvin Norris</div>
-        <div class="char-sub">Humano · Monje nivel 12</div>
-        <div class="go">Próximamente</div>
-      </span>
+        <span class="char pending-row">
+          <span class="marker"></span>
+          <span class="info">
+            <span class="cn">Darvin Norris</span>
+            <span class="meta">Humano &middot; Monje nivel 12 <span class="camp">Campa&ntilde;a por definir</span></span>
+          </span>
+          <span class="right">
+            <span class="char-status pending">Pendiente</span>
+          </span>
+        </span>
 
-      <span class="char pending-card">
-        <span class="char-status pending">Ficha pendiente</span>
-        <div class="char-name">Auriana Granunde</div>
-        <div class="char-sub">Aasimar · Clérigo nivel 6</div>
-        <div class="go">Próximamente</div>
-      </span>
+        <span class="char pending-row">
+          <span class="marker"></span>
+          <span class="info">
+            <span class="cn">Auriana Granunde</span>
+            <span class="meta">Aasimar &middot; Cl&eacute;rigo nivel 6 <span class="camp">Campa&ntilde;a por definir</span></span>
+          </span>
+          <span class="right">
+            <span class="char-status pending">Pendiente</span>
+          </span>
+        </span>
 
-    </div>
-  </section>
+      </div>
+    </div></div>
+  </div>
 
-  <!-- JUGADOR: Checho -->
-  <section class="player">
-    <div class="player-head">
+  <!-- ===================== JUGADOR: Checho ===================== -->
+  <div class="player">
+    <button class="player-head" onclick="togglePlayer(this)">
       <span class="av">C</span>
-      <h2>Checho</h2>
+      <span class="nm">Checho</span>
       <span class="count">Por agregar</span>
-      <span class="rule"></span>
-    </div>
-    <div class="chars">
+      <span class="chev">&#9662;</span>
+    </button>
+    <div class="player-body"><div class="player-body-inner">
+      <div class="char-list">
 
-      <span class="char pending-card">
-        <span class="char-status pending">Pendiente</span>
-        <div class="char-name">Personaje por agregar</div>
-        <div class="char-sub">Checho añade aquí sus fichas (ver README)</div>
-        <div class="go">Próximamente</div>
-      </span>
+        <span class="char pending-row">
+          <span class="marker"></span>
+          <span class="info">
+            <span class="cn">Personaje por agregar</span>
+            <span class="meta">Checho a&ntilde;ade aqu&iacute; sus fichas (ver README)</span>
+          </span>
+          <span class="right">
+            <span class="char-status pending">Pendiente</span>
+          </span>
+        </span>
 
-    </div>
-  </section>
+      </div>
+    </div></div>
+  </div>
 
 </main>
 
 <footer>
-  <div class="t">"El viento nunca deja de soplar, aunque a veces cambia de dirección."</div>
-  <div class="s">Fichas de la mesa · D&amp;D 2024</div>
+  <div class="t">"El viento nunca deja de soplar, aunque a veces cambia de direcci&oacute;n."</div>
+  <div class="s">Fichas de la mesa &middot; D&amp;D 2024</div>
 </footer>
+
+<script>
+  function togglePlayer(btn){
+    btn.closest('.player').classList.toggle('open');
+  }
+</script>
 
 </body>
 </html>

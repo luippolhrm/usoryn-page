@@ -39,28 +39,53 @@ Dentro van las fichas, una por personaje, en formato `.html`.
 
 ## 🔗 Cómo enlazar tu personaje en la portada
 
-Para que tu personaje aparezca en la página de inicio, hay que añadir una tarjeta en `index.html`.
+La portada usa un **acordeón por jugador**: cada jugador es un bloque plegable y dentro van sus personajes como filas de lista.
 
 1. Abre `index.html` en GitHub y clic en el lápiz (✏️ "Edit").
-2. Busca la sección de tu jugador (un bloque que empieza con `<!-- JUGADOR: Checho -->`).
-3. Copia una tarjeta de personaje existente y pégala dentro, cambiando los datos:
+2. Busca el bloque de tu jugador (empieza con `<!-- JUGADOR: Checho -->`).
+3. Dentro de su `<div class="char-list">`, copia una fila existente y pégala cambiando los datos.
+
+Para un personaje **con ficha lista** (es un enlace `<a>`):
 
 ```html
 <a class="char" href="checho/kaelen.html">
-  <span class="char-status ready">Ficha lista</span>
-  <div class="char-name">Kaelen</div>
-  <div class="char-sub">Elfo · Mago nivel 8</div>
-  <div class="go">Abrir ficha →</div>
+  <span class="marker"></span>
+  <span class="info">
+    <span class="cn">Kaelen</span>
+    <span class="meta">Elfo · Mago nivel 8 <span class="camp">Nombre de la campaña</span></span>
+  </span>
+  <span class="right">
+    <span class="char-status ready">Lista</span>
+    <span class="arrow">→</span>
+  </span>
 </a>
 ```
 
-- `href` → la ruta a tu archivo (`carpeta/archivo.html`).
-- `char-name` → nombre del personaje.
-- `char-sub` → especie · clase y nivel.
-- `char-status` → usa `ready` ("Ficha lista") o `pending` ("Ficha pendiente").
+Para un personaje **sin ficha todavía** (es un `<span>` no clicable):
 
-4. Clic en **"Commit changes"**.
-5. Espera 1-2 minutos y recarga la portada: tu personaje ya aparece.
+```html
+<span class="char pending-row">
+  <span class="marker"></span>
+  <span class="info">
+    <span class="cn">Kaelen</span>
+    <span class="meta">Elfo · Mago nivel 8 <span class="camp">Nombre de la campaña</span></span>
+  </span>
+  <span class="right">
+    <span class="char-status pending">Pendiente</span>
+  </span>
+</span>
+```
+
+- `href` → ruta a tu ficha (`carpeta/archivo.html`). Solo en la versión `<a>`.
+- `cn` → nombre del personaje.
+- `meta` → especie · clase y nivel.
+- `camp` → nombre de la campaña (reemplaza "Campaña por definir" cuando lo tengas).
+- Cuando una ficha quede lista, cambia el `<span class="char pending-row">` por `<a class="char" href="...">`, pon el estado en `ready` con texto "Lista" y añade la flecha `<span class="arrow">→</span>`.
+
+4. Si añades un personaje, actualiza también el conteo del jugador (`<span class="count">3 personajes</span>`).
+5. Clic en **"Commit changes"**.
+
+> **Campaña:** mientras no tengas el nombre, deja `Campaña por definir`. Cuando lo definas, reemplaza ese texto en cada personaje.
 
 ---
 
