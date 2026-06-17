@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usoryn Bravoviento — Hoja de Personaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBFCFD; --ink:#16202A; --ink-2:#3A4A57;
+    --jade:#1F8A70; --jade-d:#15705A; --jade-soft:#E3F1EC;
+    --sky:#3D7DCA; --sky-soft:#E5EEF8;
+    --sand:#E7B85F; --sand-d:#B98A2E;
+    --mist:#EDF1F4; --line:#DCE3E8; --line-2:#C8D2D9;
+    --bad:#C04A3E; --good:#1F8A70;
+    --shadow:0 1px 2px rgba(22,32,42,.04),0 4px 16px rgba(22,32,42,.06);
+    --shadow-lg:0 2px 8px rgba(22,32,42,.06),0 12px 36px rgba(22,32,42,.10);
+    --r:14px; --r-sm:9px;
+    --nav-h:54px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 14px)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--paper); color:var(--ink);
+    line-height:1.55; font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;top:0;z-index:50;height:var(--nav-h);
+    background:rgba(251,252,253,.82);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{display:flex;align-items:center;gap:18px;height:100%}
+  .nav .brand{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;
+    letter-spacing:-.01em;white-space:nowrap;display:flex;align-items:center;gap:9px;
+  }
+  .nav .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--jade);
+    box-shadow:0 0 0 3px var(--jade-soft);flex:none}
+  .nav ul{list-style:none;display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .nav ul::-webkit-scrollbar{display:none}
+  .nav a{
+    display:block;padding:7px 12px;border-radius:8px;font-size:.82rem;font-weight:500;
+    color:var(--ink-2);text-decoration:none;white-space:nowrap;transition:.15s;
+  }
+  .nav a:hover{background:var(--mist);color:var(--ink)}
+  .nav a.active{background:var(--jade-soft);color:var(--jade-d);font-weight:600}
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{padding:46px 0 8px;scroll-margin-top:var(--nav-h)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+  .sec-head .eyebrow{
+    font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--jade);
+  }
+  .sec-head h2{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.85rem;letter-spacing:-.02em;line-height:1;
+  }
+  .sec-head .rule{flex:1;height:1px;background:var(--line);align-self:center}
+
+  .grid{display:grid;gap:16px}
+
+  /* responsive column system — mobile-first: 1 col by default, 2 on wider screens */
+  .col2,.col2r,.col-side,.col-side-r,.col-narrow,.col3{display:grid;gap:16px}
+  @media(min-width:760px){
+    .col2{grid-template-columns:1fr 1fr}
+    .col2r{grid-template-columns:1fr 1fr}
+    .col-side{grid-template-columns:1.35fr 1fr}
+    .col-side-r{grid-template-columns:1.6fr 1fr}
+    .col-narrow{grid-template-columns:1fr 2fr}
+    .col3{grid-template-columns:repeat(3,1fr)}
+  }
+  /* reverse stacking order on mobile: second DOM child shows first */
+  .col2r>*:nth-child(1){order:2}
+  .col2r>*:nth-child(2){order:1}
+  @media(min-width:760px){
+    .col2r>*:nth-child(1){order:0}
+    .col2r>*:nth-child(2){order:0}
+  }
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:18px 20px;box-shadow:var(--shadow);
+  }
+  .card h3{
+    font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:600;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2);
+    margin-bottom:13px;display:flex;align-items:center;gap:8px;
+  }
+  .card h3::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--jade);transform:rotate(45deg);flex:none}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(120% 140% at 88% -10%, rgba(61,125,202,.10), transparent 55%),
+      radial-gradient(90% 120% at 8% 0%, rgba(31,138,112,.12), transparent 50%),
+      linear-gradient(180deg,#fff, #fff);
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{padding-top:40px;padding-bottom:34px;position:relative;z-index:2}
+  /* wind streaks signature */
+  .hero .wind{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5}
+  .hero .wind path{fill:none;stroke:var(--jade);stroke-width:1.1;opacity:.16;
+    stroke-linecap:round;stroke-dasharray:5 600;animation:gust 9s linear infinite}
+  .hero .wind path:nth-child(2){stroke:var(--sky);animation-delay:-3s;opacity:.14}
+  .hero .wind path:nth-child(3){stroke:var(--jade);animation-delay:-6s;opacity:.10}
+  @keyframes gust{to{stroke-dashoffset:-605}}
+  @media (prefers-reduced-motion:reduce){.hero .wind path{animation:none;stroke-dasharray:none;opacity:.10}}
+
+  .hero-top{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 22px;margin-bottom:24px}
+  .hero .kicker{
+    font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--jade);margin-bottom:8px;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:700;font-size:3.4rem;line-height:.95;
+    letter-spacing:-.025em;
+  }
+  .hero .tagline{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+    font-size:1.06rem;color:var(--ink-2);margin-top:8px;max-width:46ch;
+  }
+  .hero .classline{margin-left:auto;text-align:right;align-self:flex-end}
+  .hero .classline .lvl{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;
+    color:var(--jade-d);line-height:1;
+  }
+  .hero .classline .cl{font-size:.86rem;color:var(--ink-2);margin-top:3px}
+
+  /* meta chips under name */
+  .hero-meta{display:flex;flex-wrap:wrap;gap:7px}
+  .meta-chip{
+    font-size:.78rem;background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:4px 12px;color:var(--ink-2);box-shadow:var(--shadow);
+  }
+  .meta-chip b{color:var(--ink);font-weight:600}
+
+  /* stat tiles */
+  .tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:26px}
+  .tile{
+    background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:14px 12px;text-align:center;box-shadow:var(--shadow);position:relative;
+  }
+  .tile .v{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.7rem;
+    color:var(--ink);line-height:1}
+  .tile .l{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-2);margin-top:6px;font-weight:500}
+  .tile.accent{background:linear-gradient(180deg,var(--jade),var(--jade-d));border-color:var(--jade-d)}
+  .tile.accent .v{color:#fff}
+  .tile.accent .l{color:rgba(255,255,255,.82)}
+
+  @media(max-width:880px){
+    .hero h1{font-size:2.5rem}
+    .hero .classline{margin-left:0;text-align:left;width:100%}
+    .tiles{grid-template-columns:repeat(3,1fr)}
+  }
+  @media(max-width:520px){
+    .tiles{grid-template-columns:repeat(2,1fr)}
+    .sec-head h2{font-size:1.5rem}
+  }
+
+  /* ---------- ABILITIES ---------- */
+  .abilities{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+  .abil{background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--shadow);overflow:hidden}
+  .abil .top{padding:13px 12px 11px;text-align:center;position:relative;
+    background:linear-gradient(180deg,var(--mist),#fff)}
+  .abil .nm{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-2);font-weight:600}
+  .abil .mod{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;
+    line-height:1;margin-top:3px}
+  .abil .sc{display:inline-block;margin-top:6px;font-size:.72rem;font-weight:600;
+    background:var(--ink);color:#fff;border-radius:999px;padding:1px 10px}
+  .abil ul{list-style:none;padding:7px 9px 9px}
+  .abil li{display:flex;justify-content:space-between;gap:6px;align-items:center;
+    font-size:.74rem;padding:3px 2px;border-bottom:1px dotted var(--line)}
+  .abil li:last-child{border-bottom:none}
+  .abil li .n{display:flex;align-items:center;gap:5px;color:var(--ink-2)}
+  .abil li .x{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--ink)}
+  .abil li.sv{background:var(--jade-soft);margin:0 -9px;padding:3px 11px;border-bottom:none}
+  .abil li.sv .n,.abil li.sv .x{color:var(--jade-d);font-weight:600}
+  .pip{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--jade);flex:none}
+  .pip.p{background:var(--jade)}
+  .pip.e{background:var(--jade);box-shadow:inset 0 0 0 1.5px #fff}
+  .leg{font-size:.7rem;color:var(--ink-2);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+  .leg span{display:flex;align-items:center;gap:5px}
+  @media(max-width:880px){.abilities{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:520px){.abilities{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---------- TABLES ---------- */
+  table.tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+  .card{overflow-x:auto}
+  table.tbl th{
+    text-align:left;font-family:'Space Grotesk',sans-serif;font-size:.66rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:600;
+    padding:0 10px 7px;border-bottom:1.5px solid var(--line-2)}
+  table.tbl td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.tbl tr:last-child td{border-bottom:none}
+  table.tbl td.c{text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:600}
+  table.tbl .atk{color:var(--jade-d)}
+  .badge{display:inline-block;font-size:.68rem;font-weight:600;padding:1px 8px;border-radius:999px;
+    background:var(--sky-soft);color:var(--sky);font-family:'Inter',sans-serif}
+  .badge.off{background:var(--mist);color:var(--ink-2)}
+  .badge.sand{background:#FBF0D8;color:var(--sand-d)}
+  .note{font-size:.74rem;color:var(--ink-2);margin-top:10px;line-height:1.5}
+  .note strong{color:var(--ink)}
+  .callout{background:var(--jade-soft);border-left:3px solid var(--jade);
+    border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 14px;font-size:.8rem;margin-top:12px}
+  .callout b{color:var(--jade-d)}
+
+  /* definition lists */
+  dl.defs dt{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.82rem;
+    color:var(--ink);margin-top:11px;display:flex;align-items:center;gap:7px}
+  dl.defs dt:first-child{margin-top:0}
+  dl.defs dt .tag{font-size:.62rem;font-weight:600;background:var(--mist);color:var(--ink-2);
+    padding:1px 7px;border-radius:999px;font-family:'Inter',sans-serif}
+  dl.defs dd{font-size:.78rem;color:var(--ink-2);margin:2px 0 0}
+
+  /* ---------- SPELL STATS BAR ---------- */
+  .spellbar{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-bottom:18px}
+  .spellbar .s{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+    padding:10px 8px;text-align:center;box-shadow:var(--shadow)}
+  .spellbar .s .v{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:var(--jade-d)}
+  .spellbar .s .l{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-top:3px}
+  @media(max-width:880px){.spellbar{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:520px){.spellbar{grid-template-columns:repeat(2,1fr)}}
+
+  .spells{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:820px){.spells{grid-template-columns:1fr 1fr}}
+  .spell{background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:16px 18px;box-shadow:var(--shadow);position:relative}
+  .spell.feat{grid-column:1/-1;border-color:var(--jade);border-width:1.5px;
+    background:linear-gradient(180deg,var(--jade-soft),#fff)}
+  .spell .sh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:10px}
+  .spell .snm{font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;letter-spacing:-.01em}
+  .spell .smeta{font-family:'Space Grotesk',sans-serif;font-size:.66rem;font-weight:500;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--jade);text-align:right}
+  .spell .sgrid{display:grid;grid-template-columns:1fr;gap:3px 16px;font-size:.74rem;
+    color:var(--ink-2);margin-bottom:10px}
+  @media(min-width:520px){.spell .sgrid{grid-template-columns:1fr 1fr}}
+  .spell .sgrid b{color:var(--ink);font-weight:600}
+  .spell .stext{font-size:.82rem;line-height:1.5}
+  .spell .stext strong{color:var(--jade-d)}
+  .spell .sup{font-size:.72rem;color:var(--ink-2);margin-top:9px;padding-top:8px;
+    border-top:1px dotted var(--line)}
+  .spell .sup b{color:var(--ink);font-weight:600}
+  @media(max-width:760px){.spell .sgrid{grid-template-columns:1fr}}
+
+  /* ---------- FEATURE LIST ---------- */
+  .feats{display:flex;flex-direction:column;gap:13px}
+  .ft{position:relative;padding-left:16px}
+  .ft::before{content:"";position:absolute;left:0;top:5px;bottom:5px;width:3px;
+    border-radius:3px;background:var(--jade);opacity:.5}
+  .ft h4{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ft h4 .tag{font-size:.62rem;font-weight:600;background:var(--sky-soft);color:var(--sky);
+    padding:1px 8px;border-radius:999px}
+  .ft p{font-size:.8rem;color:var(--ink-2);margin-top:3px}
+
+  /* tool grid */
+  .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .tool{background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:14px 16px;box-shadow:var(--shadow)}
+  .tool .th{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
+    border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:8px}
+  .tool .tn{font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem}
+  .tool .tt{font-size:.62rem;font-weight:600;background:var(--mist);color:var(--ink-2);
+    padding:1px 7px;border-radius:999px}
+  .tool .ta{font-size:.68rem;color:var(--jade);margin-left:auto;font-weight:500}
+  .tool .tu{font-size:.78rem;color:var(--ink-2)}
+  .tool .tu b{color:var(--ink)}
+  .tool .lblrow{font-size:.78rem;color:var(--ink-2);margin-bottom:5px}
+  .tool .lbl{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:.6rem;
+    font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--jade-d);
+    background:var(--jade-soft);padding:1px 6px;border-radius:5px;margin-right:6px;vertical-align:1px}
+  .tool .tc{font-size:.72rem;margin-top:7px;padding:6px 9px;background:var(--jade-soft);
+    border-radius:var(--r-sm);color:var(--ink-2)}
+  .tool .tc b{color:var(--jade-d)}
+  @media(max-width:880px){.tools{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.tools{grid-template-columns:1fr}}
+
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{font-size:.78rem;background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:4px 12px;box-shadow:var(--shadow)}
+  .chip.hot{background:var(--jade);color:#fff;border-color:var(--jade-d);font-weight:600}
+  .chip.sky{background:var(--sky-soft);color:var(--sky);border-color:transparent}
+
+  /* ---------- INVENTORY / STOCK ---------- */
+  .invbar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+  .inv{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;
+    box-shadow:var(--shadow);display:flex;align-items:center;gap:14px}
+  .inv .big{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.9rem;
+    color:var(--jade-d);line-height:1;flex:none}
+  .inv .big small{font-size:.9rem;color:var(--ink-2);font-weight:500}
+  .inv .meta{font-size:.74rem;color:var(--ink-2)}
+  .inv .meta b{display:block;font-family:'Space Grotesk',sans-serif;font-size:.84rem;color:var(--ink);font-weight:600}
+  .inv .bars{display:flex;gap:3px;margin-top:5px}
+  .inv .bars i{height:6px;border-radius:3px;display:block}
+  @media(max-width:760px){.invbar{grid-template-columns:1fr}}
+  /* origin / stock pills in tables */
+  .src{font-size:.68rem;font-weight:600;padding:1px 7px;border-radius:999px;white-space:nowrap;display:inline-block}
+  .src.buy{background:var(--sky-soft);color:var(--sky)}
+  .src.make{background:var(--jade-soft);color:var(--jade-d)}
+  .src.nat{background:#EEF3E6;color:#5C7A2E}
+  .src.todo{background:#FBF0D8;color:var(--sand-d)}
+  .stk{font-size:.68rem;font-weight:600;color:var(--jade-d);white-space:nowrap}
+  .stk.low{color:var(--sand-d)}
+  .mats{font-size:.72rem;color:var(--ink-2)}
+
+  /* ---------- EQUIPMENT ---------- */
+  .slots{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .slot{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+    padding:10px 12px;position:relative;box-shadow:var(--shadow);
+    display:flex;flex-direction:column}
+  .slot.locked{background:linear-gradient(180deg,#FBF6E8,#fff);border-color:#EAD9A8}
+  .slot .sl{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--jade);font-weight:600;display:block}
+  .slot .it{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem;margin-top:2px;display:block;padding-right:62px}
+  .slot .bn{font-size:.72rem;color:var(--ink-2);margin-top:2px;display:block}
+  .slot .st{position:absolute;top:9px;right:10px;font-size:.58rem;font-weight:600;
+    text-transform:uppercase;letter-spacing:.05em;padding:1px 7px;border-radius:999px;
+    background:var(--jade-soft);color:var(--jade-d)}
+  .slot .at{display:inline-block;margin-top:5px;font-size:.58rem;background:var(--sand);color:#5a3d00;
+    padding:0 7px;border-radius:999px;font-weight:600}
+
+  .container{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+    margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow)}
+  .container .ch{background:var(--mist);padding:8px 12px;display:flex;align-items:baseline;gap:8px;
+    border-bottom:1px solid var(--line)}
+  .container .ci{font-size:1rem}
+  .container .cn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.86rem}
+  .container .cd{font-size:.66rem;color:var(--ink-2);margin-left:auto;font-style:italic}
+  .container .cb{display:flex;flex-wrap:wrap;gap:6px;padding:11px 12px}
+  .container .ci-item{font-size:.74rem;background:var(--paper);border:1px solid var(--line);
+    border-radius:999px;padding:2px 10px}
+  .container .ci-item.coin{background:var(--jade);color:#fff;border-color:var(--jade-d);font-weight:600}
+  .container.home{border-color:#EAD9A8}
+  .container.home .ch{background:linear-gradient(180deg,#FBF6E8,#F7EFD8);border-bottom-color:#EAD9A8}
+  .container.home .cn{color:#8a6d2e}
+  .container.home .home-tag{margin-left:auto;font-size:.6rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:.06em;color:#8a6d2e;background:#fff;border:1px solid #EAD9A8;
+    padding:1px 9px;border-radius:999px;font-style:normal}
+  .container.home .cd{margin-left:10px}
+  .container.home .ci-item{background:#fff;border-color:#EBDFC0}
+  .qty{opacity:.6;font-size:.92em}
+
+  .acbox{background:linear-gradient(180deg,var(--jade),var(--jade-d));border-radius:var(--r);
+    padding:18px;text-align:center;color:#fff;box-shadow:var(--shadow-lg)}
+  .acbox .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3rem;line-height:.9}
+  .acbox .l{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:4px}
+  .bd-row{display:flex;justify-content:space-between;font-size:.78rem;padding:6px 2px;
+    border-bottom:1px dotted var(--line)}
+  .bd-row .v{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--jade-d)}
+  .bd-row.tot{border-bottom:none;border-top:1.5px solid var(--line-2);margin-top:2px;padding-top:8px;
+    font-weight:700;font-size:.92rem}
+  .attune{display:flex;align-items:center;gap:7px;margin-top:14px;font-size:.72rem;color:var(--ink-2)}
+  .attune .lbl{font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.62rem;color:var(--jade-d)}
+  .attune .s{width:13px;height:13px;border-radius:50%;border:2px solid var(--jade)}
+  .attune .s.on{background:var(--jade)}
+
+  /* ---------- STORY ---------- */
+  .story-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
+  .prose p{font-size:.92rem;line-height:1.7;margin-bottom:13px;color:var(--ink)}
+  .prose .lead::first-letter{font-family:'Fraunces',serif;font-size:3.3rem;float:left;
+    line-height:.78;padding:6px 10px 0 0;color:var(--jade-d);font-weight:700}
+  .story-h{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;letter-spacing:-.01em;
+    margin:0 0 10px}
+  .story-block{margin-bottom:26px}
+  .quote{font-family:'Fraunces',serif;font-style:italic;font-size:.96rem;color:var(--ink-2);
+    border-left:3px solid var(--jade);padding:4px 0 4px 16px;margin:14px 0}
+  .motiv{background:var(--jade-soft);border-radius:var(--r);padding:14px 16px;font-size:.84rem;margin-top:14px}
+  .motiv b{color:var(--jade-d)}
+  .npcs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .npc{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;
+    box-shadow:var(--shadow)}
+  .npc b{font-family:'Space Grotesk',sans-serif;font-size:.88rem;display:block;margin-bottom:2px}
+  .npc p{font-size:.74rem;color:var(--ink-2);line-height:1.45}
+  .npc .stt{display:inline-block;margin-top:6px;font-size:.6rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:.05em;background:var(--mist);color:var(--ink-2);padding:1px 8px;border-radius:999px}
+  .myst{columns:2;column-gap:18px;margin-top:4px}
+  .myst div{font-size:.82rem;padding:5px 0 5px 18px;position:relative;break-inside:avoid;color:var(--ink-2)}
+  .myst div::before{content:"?";position:absolute;left:3px;color:var(--jade);font-weight:700;
+    font-family:'Fraunces',serif}
+  @media(max-width:820px){
+    .story-grid{grid-template-columns:1fr;gap:0}
+    .npcs{grid-template-columns:1fr}.myst{columns:1}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer.foot{margin-top:50px;border-top:1px solid var(--line);padding:26px 0 40px;text-align:center}
+  footer.foot .t{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-2);font-size:.92rem}
+  footer.foot .s{font-size:.72rem;color:var(--ink-2);opacity:.7;margin-top:6px}
+
+  @media print{
+    .nav{display:none}.hero .wind{display:none}
+    body{font-size:12px}section{padding:20px 0}
+    .card,.spell,.tool,.slot,.container,.npc{break-inside:avoid;box-shadow:none}
+  }
+
+  /* ---------- MOBILE REFINEMENTS ---------- */
+  @media(max-width:560px){
+    .wrap{padding:0 14px}
+    .card{padding:15px 15px}
+    section{padding:34px 0 6px}
+    .hero h1{font-size:2.15rem}
+    .hero .wrap{padding-top:30px;padding-bottom:26px}
+    table.tbl{font-size:.8rem}
+    table.tbl th,table.tbl td{padding:7px 8px}
+    .invbar{gap:10px}
+    .spell{padding:14px 15px}
+    .nav .brand{font-size:.92rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="wrap">
+    <span class="brand"><span class="dot"></span>Usoryn Bravoviento</span>
+    <ul>
+      <li><a href="#resumen">Resumen</a></li>
+      <li><a href="#combate">Combate</a></li>
+      <li><a href="#conjuros">Conjuros</a></li>
+      <li><a href="#rasgos">Rasgos</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#proyectiles">Proyectiles</a></li>
+      <li><a href="#historia">Historia</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="resumen">
+  <svg class="wind" viewBox="0 0 1200 320" preserveAspectRatio="none">
+    <path d="M-20,70 C300,30 520,120 820,70 1040,30 1180,90 1240,60"/>
+    <path d="M-20,170 C260,210 560,120 860,170 1080,205 1180,150 1240,180"/>
+    <path d="M-20,250 C320,215 540,290 840,250 1060,220 1180,270 1240,245"/>
+  </svg>
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <div class="kicker">Hoja de personaje · D&amp;D 2024</div>
+        <h1>Usoryn Bravoviento</h1>
+        <p class="tagline">Tirador y cuentista de los acantilados de Brisasol — el héroe de sus propias historias.</p>
+      </div>
+      <div class="classline">
+        <div class="lvl">Nivel 6</div>
+        <div class="cl">Pícaro 1 · Explorador 5<br>Subclase: Cazador</div>
+      </div>
+    </div>
+
+    <div class="hero-meta">
+      <span class="meta-chip">Especie <b>Halfling</b> (Pequeño)</span>
+      <span class="meta-chip">Trasfondo <b>Artesano</b></span>
+      <span class="meta-chip">Alineamiento <b>Neutral Bueno</b></span>
+      <span class="meta-chip">Competencia <b>+3</b></span>
+      <span class="meta-chip">Edad <b>27</b></span>
+      <span class="meta-chip">90 cm · 18 kg (40 lb)</span>
+      <span class="meta-chip">Ojos <b>ámbar</b> · Cabello <b>castaño</b></span>
+    </div>
+
+    <div class="tiles">
+      <div class="tile accent"><div class="v">20</div><div class="l">Clase de Armadura</div></div>
+      <div class="tile"><div class="v">39</div><div class="l">Puntos de Golpe</div></div>
+      <div class="tile"><div class="v">+5</div><div class="l">Iniciativa</div></div>
+      <div class="tile"><div class="v">12 m</div><div class="l">Velocidad</div></div>
+      <div class="tile"><div class="v">12</div><div class="l">Percep. Pasiva</div></div>
+      <div class="tile"><div class="v">13</div><div class="l">CD de Conjuros</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ===================== COMBATE ===================== -->
+<section id="combate">
+  <div class="sec-head">
+    <span class="eyebrow">01</span>
+    <h2>Combate</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Características y salvaciones</h3>
+    <div class="abilities">
+      <div class="abil">
+        <div class="top"><div class="nm">Fuerza</div><div class="mod" style="color:var(--bad)">−1</div><span class="sc">9</span></div>
+        <ul>
+          <li class="sv"><span class="n">Salvación</span><span class="x">+1</span></li>
+          <li><span class="n"><span class="pip"></span>Atletismo</span><span class="x">−1</span></li>
+        </ul>
+      </div>
+      <div class="abil">
+        <div class="top"><div class="nm">Destreza</div><div class="mod" style="color:var(--jade-d)">+5</div><span class="sc">20</span></div>
+        <ul>
+          <li class="sv"><span class="n">Salvación ●</span><span class="x">+10</span></li>
+          <li><span class="n"><span class="pip p"></span>Acrobacias</span><span class="x">+8</span></li>
+          <li><span class="n"><span class="pip e"></span>Juego de Manos</span><span class="x">+11</span></li>
+          <li><span class="n"><span class="pip e"></span>Sigilo</span><span class="x">+11</span></li>
+        </ul>
+      </div>
+      <div class="abil">
+        <div class="top"><div class="nm">Constitución</div><div class="mod">+0</div><span class="sc">10</span></div>
+        <ul>
+          <li class="sv"><span class="n">Salvación</span><span class="x">+2</span></li>
+        </ul>
+      </div>
+      <div class="abil">
+        <div class="top"><div class="nm">Inteligencia</div><div class="mod" style="color:var(--jade-d)">+2</div><span class="sc">15</span></div>
+        <ul>
+          <li class="sv"><span class="n">Salvación ●</span><span class="x">+7</span></li>
+          <li><span class="n"><span class="pip e"></span>Investigación</span><span class="x">+8</span></li>
+          <li><span class="n"><span class="pip"></span>Arcanos</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip"></span>Historia</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip"></span>Naturaleza</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip"></span>Religión</span><span class="x">+2</span></li>
+        </ul>
+      </div>
+      <div class="abil">
+        <div class="top"><div class="nm">Sabiduría</div><div class="mod" style="color:var(--jade-d)">+2</div><span class="sc">15</span></div>
+        <ul>
+          <li class="sv"><span class="n">Salvación</span><span class="x">+4</span></li>
+          <li><span class="n"><span class="pip p"></span>Perspicacia</span><span class="x">+5</span></li>
+          <li><span class="n"><span class="pip"></span>Percepción</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip"></span>Supervivencia</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip"></span>T. Animales</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip"></span>Medicina</span><span class="x">+2</span></li>
+        </ul>
+      </div>
+      <div class="abil">
+        <div class="top"><div class="nm">Carisma</div><div class="mod">+0</div><span class="sc">11</span></div>
+        <ul>
+          <li class="sv"><span class="n">Salvación</span><span class="x">+2</span></li>
+          <li><span class="n"><span class="pip e"></span>Persuasión</span><span class="x">+6</span></li>
+          <li><span class="n"><span class="pip"></span>Engaño</span><span class="x">+0</span></li>
+          <li><span class="n"><span class="pip"></span>Intimidación</span><span class="x">+0</span></li>
+          <li><span class="n"><span class="pip"></span>Interpretación</span><span class="x">+0</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="leg">
+      <span><span class="pip p"></span> Competencia</span>
+      <span><span class="pip e"></span> Pericia (Expertise)</span>
+      <span>● Salvación competente</span>
+      <span>Salvaciones incluyen +1 de Anillo y +1 de Capa de Protección.</span>
+    </div>
+  </div>
+
+  <div class="col-side">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <h3>Hookpak · arma personalizada</h3>
+        <table class="tbl">
+          <thead><tr><th>Modo</th><th style="width:52px">Atq</th><th>Daño</th><th style="width:64px">Maestría</th></tr></thead>
+          <tbody>
+            <tr><td>Lanza (1 mano)</td><td class="c atk">+8</td><td>1d6+5 perforante</td><td><span class="badge">Sap</span></td></tr>
+            <tr><td>Lanza (2 manos)</td><td class="c atk">+8</td><td>1d8+5 perforante</td><td><span class="badge">Sap</span></td></tr>
+            <tr><td>Bastón (1 mano)</td><td class="c atk">+8</td><td>1d6+5 contundente</td><td><span class="badge">Sap</span></td></tr>
+            <tr><td>Bastón (2 manos)</td><td class="c atk">+8</td><td>1d8+5 contundente</td><td><span class="badge">Sap</span></td></tr>
+            <tr><td>Tirachinas <span style="opacity:.6">20/60</span></td><td class="c atk">+10</td><td>1d6+5 contundente</td><td><span class="badge">Vex</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Armas secundarias</h3>
+        <table class="tbl">
+          <thead><tr><th>Arma</th><th style="width:52px">Atq</th><th>Daño</th><th style="width:64px">Maestría</th></tr></thead>
+          <tbody>
+            <tr><td>Espada corta <span style="opacity:.6">Finesse, Light</span></td><td class="c atk">+8</td><td>1d6+5 perforante</td><td><span class="badge">Vex</span></td></tr>
+            <tr><td>Honda <span style="opacity:.6">30/120</span></td><td class="c atk">+10</td><td>1d4+5 contundente</td><td><span class="badge off">Slow*</span></td></tr>
+          </tbody>
+        </table>
+        <p class="note">* <strong>Slow</strong> no está entre las 2 maestrías activas (Vex y Sap). Intercambiable al terminar un descanso largo.</p>
+      </div>
+
+      <div class="card">
+        <h3>Daño adicional</h3>
+        <table class="tbl">
+          <thead><tr><th>Fuente</th><th style="width:56px">Dado</th><th>Condición</th></tr></thead>
+          <tbody>
+            <tr><td>Ataque Furtivo</td><td class="c atk">+1d6</td><td>1×/turno · ventaja o aliado adyacente</td></tr>
+            <tr><td>Azote de Colosos</td><td class="c atk">+1d8</td><td>1×/turno · objetivo bajo su PG máx.</td></tr>
+            <tr><td>Marca del Cazador</td><td class="c atk">+1d6</td><td>Conjuro activo sobre el objetivo</td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <b>Turno óptimo</b> — El turno previo, declara e impacta con un arma Vex (Tirachinas o Espada corta) para que tu siguiente ataque contra ese objetivo tenga ventaja y garantices el Ataque Furtivo. Al turno siguiente: Disparo 1: 1d6+5 +1d6 (Furtivo) +1d6 (Marca) +1d8 (Azote); Disparo 2: 1d6+5 +1d6 (Marca). Total: <b>5d6 + 1d8 + 10</b>.
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <h3>Tiradas de salvación</h3>
+        <table class="tbl">
+          <tbody>
+            <tr><td>Fuerza</td><td class="c">+1</td><td style="text-align:right"><span class="badge off">—</span></td></tr>
+            <tr><td>Destreza</td><td class="c atk">+10</td><td style="text-align:right"><span class="badge">competente</span></td></tr>
+            <tr><td>Constitución</td><td class="c">+2</td><td style="text-align:right"><span class="badge off">—</span></td></tr>
+            <tr><td>Inteligencia</td><td class="c atk">+7</td><td style="text-align:right"><span class="badge">competente</span></td></tr>
+            <tr><td>Sabiduría</td><td class="c">+4</td><td style="text-align:right"><span class="badge off">—</span></td></tr>
+            <tr><td>Carisma</td><td class="c">+2</td><td style="text-align:right"><span class="badge off">—</span></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Todas incluyen +2 por objetos (Anillo + Capa). Competencia en Destreza e Inteligencia por la clase inicial Pícaro.</p>
+      </div>
+
+      <div class="card">
+        <h3>Maestrías de arma</h3>
+        <dl class="defs">
+          <dt>Vex <span class="tag">activa</span></dt>
+          <dd>Si impactas, tu próximo ataque contra ese objetivo se hace con ventaja.</dd>
+          <dt>Sap <span class="tag">activa</span></dt>
+          <dd>Si impactas, el objetivo tiene desventaja en su próxima tirada de ataque antes de tu siguiente turno.</dd>
+          <dt>Slow <span class="tag">Honda · no activa</span></dt>
+          <dd>Si impactas y causas daño, reduces la velocidad del objetivo en 3 m hasta el inicio de tu próximo turno.</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h3>Acciones y concentración</h3>
+        <dl class="defs">
+          <dt>Acción principal</dt>
+          <dd>Atacar (2 veces por Ataque Adicional), lanzar conjuro, usar herramienta, ayudar.</dd>
+          <dt>Acción adicional</dt>
+          <dd>Marca del Cazador, Tormenta de Espinas o Golpe Apresador. Mover la marca si el objetivo cae.</dd>
+          <dt>Reacción</dt>
+          <dd>Una por ronda; se recupera al inicio de tu turno.</dd>
+          <dt>Concentración</dt>
+          <dd>Solo un conjuro a la vez (Marca, Enmarañar, Golpe Apresador). Al recibir daño: salvación de Constitución CD = 10 o mitad del daño, lo mayor.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONJUROS ===================== -->
+<section id="conjuros">
+  <div class="sec-head">
+    <span class="eyebrow">02</span>
+    <h2>Conjuros</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="spellbar">
+    <div class="s"><div class="v">Sab</div><div class="l">Característica</div></div>
+    <div class="s"><div class="v">+2</div><div class="l">Modificador</div></div>
+    <div class="s"><div class="v">13</div><div class="l">CD Salvación</div></div>
+    <div class="s"><div class="v">+5</div><div class="l">Ataque mágico</div></div>
+    <div class="s"><div class="v">4</div><div class="l">Espacios Nv1</div></div>
+    <div class="s"><div class="v">2</div><div class="l">Espacios Nv2</div></div>
+    <div class="s"><div class="v">6</div><div class="l">Preparados +Marca</div></div>
+    <div class="s"><div class="v">1</div><div class="l">Concentración máx.</div></div>
+  </div>
+
+  <div class="spells">
+    <div class="spell feat">
+      <div class="sh">
+        <span class="snm">Marca del Cazador</span>
+        <span class="smeta">Nv 1 · Adivinación · Siempre preparada</span>
+      </div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acción adicional</span>
+        <span><b>Alcance:</b> 27 m (90 ft)</span>
+        <span><b>Componentes:</b> V</span>
+        <span><b>Duración:</b> Concentración, hasta 1 h</span>
+      </div>
+      <p class="stext">Marcas a una criatura visible como tu presa. Infliges <strong>+1d6 de daño de Fuerza</strong> cada vez que la golpeas con una tirada de ataque, y tienes ventaja en pruebas de Sabiduría (Percepción o Supervivencia) para encontrarla. Si el objetivo cae a 0 PG, puedes usar una acción adicional para mover la marca a otra criatura visible.</p>
+      <div class="sup"><b>Espacio superior:</b> con Nv 3–4 la concentración dura hasta 8 h; con Nv 5+ hasta 24 h. Siempre preparada por Enemigo Predilecto, sin contar contra el límite.</div>
+    </div>
+
+    <div class="spell">
+      <div class="sh"><span class="snm">Enmarañar</span><span class="smeta">Nv 1 · Conjuración</span></div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acción</span>
+        <span><b>Alcance:</b> 27 m (90 ft)</span>
+        <span><b>Componentes:</b> V, S</span>
+        <span><b>Duración:</b> Conc., hasta 1 min</span>
+      </div>
+      <p class="stext">Plantas que apresan brotan en un cuadrado de 6 m, volviéndolo terreno difícil. Cada criatura en el área (excepto tú) debe superar una salvación de Fuerza <strong>(CD 13)</strong> o quedar <strong>Apresada</strong>. Una criatura apresada puede usar su acción para una prueba de Fuerza (Atletismo) contra tu CD y liberarse.</p>
+    </div>
+
+    <div class="spell">
+      <div class="sh"><span class="snm">Tormenta de Espinas</span><span class="smeta">Nv 1 · Conj. · Sin concentración</span></div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acc. adicional tras impactar</span>
+        <span><b>Alcance:</b> Personal</span>
+        <span><b>Componentes:</b> V</span>
+        <span><b>Duración:</b> Instantánea</span>
+      </div>
+      <p class="stext">Al impactar, brota una lluvia de espinas del arma a distancia. El objetivo y cada criatura a 1,5 m hacen salvación de Destreza <strong>(CD 13)</strong>: <strong>1d10 perforante</strong> si fallan, mitad si superan. <em>2024: ya no requiere concentración.</em></p>
+      <div class="sup"><b>Espacio superior:</b> +1d10 por nivel (2d10 con Nv 2).</div>
+    </div>
+
+    <div class="spell">
+      <div class="sh"><span class="snm">Curar Heridas</span><span class="smeta">Nv 1 · Abjuración</span></div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acción</span>
+        <span><b>Alcance:</b> Toque</span>
+        <span><b>Componentes:</b> V, S</span>
+        <span><b>Duración:</b> Instantánea</span>
+      </div>
+      <p class="stext">Una criatura que toques recupera <strong>2d8 + 2</strong> puntos de golpe (modificador de Sabiduría).</p>
+      <div class="sup"><b>Espacio superior:</b> +2d8 por cada nivel por encima de 1 (4d8+2 con Nv 2).</div>
+    </div>
+
+    <div class="spell">
+      <div class="sh"><span class="snm">Golpe Apresador</span><span class="smeta">Nv 1 · Conjuración</span></div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acc. adicional tras impactar</span>
+        <span><b>Alcance:</b> Personal</span>
+        <span><b>Componentes:</b> V</span>
+        <span><b>Duración:</b> Conc., hasta 1 min</span>
+      </div>
+      <p class="stext">Enredaderas mágicas aferran al objetivo. Salvación de Fuerza <strong>(CD 13)</strong> (ventaja si es Grande o mayor). Si falla: <strong>Apresado</strong> y <strong>1d6 perforante</strong> al inicio de cada turno. Puede liberarse con una prueba de Fuerza (Atletismo) contra tu CD.</p>
+      <div class="sup"><b>Espacio superior:</b> +1d6 por nivel (2d6/turno con Nv 2).</div>
+    </div>
+
+    <div class="spell">
+      <div class="sh"><span class="snm">Zancada Prodigiosa</span><span class="smeta">Nv 1 · Transmutación</span></div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acción</span>
+        <span><b>Alcance:</b> Toque</span>
+        <span><b>Componentes:</b> V, S, M</span>
+        <span><b>Duración:</b> 1 hora</span>
+      </div>
+      <p class="stext">La velocidad del objetivo tocado aumenta en <strong>3 m (10 ft)</strong> hasta que el conjuro termine. No requiere concentración.</p>
+    </div>
+
+    <div class="spell">
+      <div class="sh"><span class="snm">Silencio</span><span class="smeta">Nv 2 · Ilusión · Ritual</span></div>
+      <div class="sgrid">
+        <span><b>Lanzamiento:</b> Acción (o Ritual)</span>
+        <span><b>Alcance:</b> 36 m (120 ft)</span>
+        <span><b>Componentes:</b> V, S</span>
+        <span><b>Duración:</b> Conc., hasta 10 min</span>
+      </div>
+      <p class="stext">Esfera de silencio absoluto de <strong>6 m de radio</strong>. Ningún sonido se crea dentro ni la atraviesa. Las criaturas dentro son inmunes al daño de trueno y quedan <strong>Ensordecidas</strong>. Impide lanzar conjuros con componente verbal dentro de la esfera.</p>
+      <div class="sup"><b>Como ritual:</b> +10 min de lanzamiento, sin gastar espacio de conjuro. El Explorador 2024 puede lanzar rituales.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RASGOS ===================== -->
+<section id="rasgos">
+  <div class="sec-head">
+    <span class="eyebrow">03</span>
+    <h2>Rasgos y competencias</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="col2r">
+    <div class="card">
+      <h3>Clase · Pícaro (nivel 1)</h3>
+      <div class="feats">
+        <div class="ft"><h4>Pericia <span class="tag">Píc 1</span></h4><p>Duplica el bonificador de competencia en Juego de Manos (+11) y Sigilo (+11). Su faceta de escapista y ladrón callejero.</p></div>
+        <div class="ft"><h4>Ataque Furtivo <span class="tag">Píc 1</span></h4><p>1×/turno, +1d6 al impactar con arma Finesse o a distancia, si tiene ventaja o un aliado está adyacente al objetivo (y él sin desventaja). Permanece en 1d6 (no sube con Explorador).</p></div>
+        <div class="ft"><h4>Jerga de Ladrones <span class="tag">Píc 1</span></h4><p>Código secreto de símbolos y señales del hampa para ocultar mensajes en conversaciones normales.</p></div>
+        <div class="ft"><h4>Maestría de Armas <span class="tag">Píc 1</span></h4><p>Aplica propiedades de Maestría en armas Finesse o a distancia con las que tenga competencia.</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Especie · Halfling</h3>
+      <div class="feats">
+        <div class="ft"><h4>Suerte</h4><p>Al sacar un 1 natural en un d20 (prueba, ataque o salvación), repite el dado y usa el nuevo resultado.</p></div>
+        <div class="ft"><h4>Valentía</h4><p>Ventaja en salvaciones para evitar o terminar el estado Asustado.</p></div>
+        <div class="ft"><h4>Agilidad de Halfling</h4><p>Puede moverse a través del espacio de cualquier criatura de tamaño mayor al suyo. No puede detenerse ahí.</p></div>
+        <div class="ft"><h4>Sigilo Natural</h4><p>Puede intentar Esconderse incluso cuando solo lo cubre una criatura al menos un tamaño mayor que él.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Clase · Explorador (niveles 1–5) · Cazador</h3>
+    <div class="col2">
+      <div class="feats">
+        <div class="ft"><h4>Enemigo Predilecto <span class="tag">Exp 1</span></h4><p>Siempre tiene preparada Marca del Cazador sin contar contra el límite. Puede lanzarla sin gastar espacio un número de veces por descanso largo según la tabla.</p></div>
+        <div class="ft"><h4>Maestría de Armas <span class="tag">Exp 1</span></h4><p>Maestrías activas: Vex y Sap (máximo 2). Intercambiables al terminar un descanso largo.</p></div>
+        <div class="ft"><h4>Estilo de Combate: Tiro con Arco <span class="tag">Exp 1</span></h4><p>+2 a las tiradas de ataque con armas a distancia. Usoryn lo aplica a honda y tirachinas — su estilo de tirador.</p></div>
+        <div class="ft"><h4>Explorador Experto <span class="tag">Exp 2</span></h4><p>Pericia en Investigación (+8) y Persuasión (+6); velocidad +3 m (hasta 12 m); 2 idiomas adicionales.</p></div>
+      </div>
+      <div class="feats">
+        <div class="ft"><h4>Lanzamiento de Conjuros <span class="tag">Exp 2</span></h4><p>Conjuros de Explorador con Sabiduría. CD 13, ataque mágico +5. Espacios: 4 de Nv1, 2 de Nv2.</p></div>
+        <div class="ft"><h4>Azote de Colosos <span class="tag">Caz 3</span></h4><p>+1d8 de daño 1×/turno al golpear a un objetivo por debajo de su PG máximo. Convierte cada golpe sobre un enemigo herido en algo letal.</p></div>
+        <div class="ft"><h4>Mejora de Característica <span class="tag">Exp 4</span></h4><p>+2 a Destreza (al máximo de 20). Mejoró ataque, daño, iniciativa y todas las habilidades de Destreza.</p></div>
+        <div class="ft"><h4>Ataque Adicional <span class="tag">Exp 5</span></h4><p>Ataca dos veces al realizar la acción de Atacar. Con maestrías y dados extra, su pico de daño.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-narrow" style="margin-top:16px">
+    <div class="card">
+      <h3>Competencias</h3>
+      <p class="note" style="margin-top:0"><strong>Armaduras:</strong> ligera, media, escudos.<br><strong>Armas:</strong> simples y marciales.<br><strong>Salvaciones:</strong> Destreza e Inteligencia.</p>
+      <div style="height:12px"></div>
+      <p class="note" style="margin-top:0"><strong>Idiomas:</strong> Común, Halfling, Dracónico, Goblinoide, y uno por elegir.</p>
+    </div>
+
+    <div class="card">
+      <h3>Dote de origen · Crafter</h3>
+      <p class="note" style="margin-top:0">Obtenida con el trasfondo Artesano. No consume la mejora de característica del nivel 4.</p>
+      <div class="col3" style="margin-top:12px">
+        <div class="callout" style="margin-top:0"><b>Competencia en herramientas</b><br><span style="color:var(--ink-2)">3 herramientas de artesano: Alfarero, Carpintero y Herrero.</span></div>
+        <div class="callout" style="margin-top:0"><b>Descuento 20%</b><br><span style="color:var(--ink-2)">En cualquier objeto no mágico que compre.</span></div>
+        <div class="callout" style="margin-top:0"><b>Fabricación rápida</b><br><span style="color:var(--ink-2)">Un objeto no mágico gratis por descanso largo.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Space Grotesk',sans-serif;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-2);margin:24px 0 13px;display:flex;align-items:center;gap:8px">
+    <span style="width:6px;height:6px;border-radius:2px;background:var(--jade);transform:rotate(45deg)"></span>
+    Herramientas <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:.7;font-family:Inter">— Si eres competente, sumas tu bono de competencia; si lo eres también en la habilidad usada, además tienes ventaja (PHB 2024, pág. 221).</span>
+  </h3>
+  <div class="tools">
+    <div class="tool">
+      <div class="th"><span class="tn">Herramientas de Ladrón</span><span class="tt">Pícaro</span><span class="ta">Destreza</span></div>
+      <div class="lblrow"><span class="lbl">Utilizar</span>Abrir una cerradura o desarmar una trampa (CD 15).</div>
+      <div class="lblrow"><span class="lbl">Fabrica</span>—</div>
+      <div class="tc"><b>Con Pericia en Juego de Manos:</b> +11 con ventaja en ambas acciones.</div>
+    </div>
+    <div class="tool">
+      <div class="th"><span class="tn">Soplador de Vidrio</span><span class="tt">Artesano</span><span class="ta">Inteligencia</span></div>
+      <div class="lblrow"><span class="lbl">Utilizar</span>Identificar qué contuvo un objeto de vidrio en las últimas 24 h (CD 15).</div>
+      <div class="lblrow"><span class="lbl">Fabrica</span>Botella de cristal, catalejo, lupa, vial.</div>
+      <div class="tc"><b>+8 con ventaja</b> (Investigación).</div>
+    </div>
+    <div class="tool">
+      <div class="th"><span class="tn">Alfarero</span><span class="tt">Crafter</span><span class="ta">Inteligencia</span></div>
+      <div class="lblrow"><span class="lbl">Utilizar</span>Identificar qué contuvo una cerámica en las últimas 24 h (CD 15).</div>
+      <div class="lblrow"><span class="lbl">Fabrica</span>Jarro, lámpara.</div>
+      <div class="tc"><b>+8 con ventaja</b> (Investigación).</div>
+    </div>
+    <div class="tool">
+      <div class="th"><span class="tn">Carpintero</span><span class="tt">Crafter</span><span class="ta">Fuerza</span></div>
+      <div class="lblrow"><span class="lbl">Utilizar</span>Apalancar para abrir o sellar una puerta o recipiente (CD 20).</div>
+      <div class="lblrow"><span class="lbl">Fabrica</span>Bastón, garrote, antorcha, ariete portátil, barril, cofre, escalera, vara.</div>
+      <div class="tc" style="background:var(--mist)"><b style="color:var(--ink-2)">+2 sin ventaja</b> · no tiene una habilidad de Fuerza competente que dé ventaja.</div>
+    </div>
+    <div class="tool">
+      <div class="th"><span class="tn">Herrero</span><span class="tt">Crafter</span><span class="ta">Fuerza</span></div>
+      <div class="lblrow"><span class="lbl">Utilizar</span>Apalancar para abrir o sellar una puerta o recipiente (CD 20).</div>
+      <div class="lblrow"><span class="lbl">Fabrica</span>Casi cualquier arma de metal, armadura media y pesada, proyectiles de honda, bolas de metal, cadenas, garfios.</div>
+      <div class="tc" style="background:var(--mist)"><b style="color:var(--ink-2)">+2 sin ventaja</b> · no tiene una habilidad de Fuerza competente que dé ventaja.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EQUIPO ===================== -->
+<section id="equipo">
+  <div class="sec-head">
+    <span class="eyebrow">04</span>
+    <h2>Equipo</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="col-side-r">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <h3>Armadura y protección</h3>
+        <div class="slots" id="armorSlots"></div>
+      </div>
+      <div class="card">
+        <h3>Armas equipadas</h3>
+        <div class="slots" id="weaponSlots"></div>
+      </div>
+      <div class="card">
+        <h3>Contenedores</h3>
+        <div id="containers"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="acbox">
+        <div class="n" id="acNum">20</div>
+        <div class="l">Clase de Armadura</div>
+      </div>
+      <div class="card">
+        <h3>Desglose de CA</h3>
+        <div id="breakdown"></div>
+        <div class="attune">
+          <span class="lbl">Sintonización</span>
+          <span class="s" id="at0"></span><span class="s" id="at1"></span><span class="s" id="at2"></span>
+          <span id="atLabel" style="margin-left:auto;font-weight:600">2/3</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Bono de salvación por objetos</h3>
+        <div class="note" id="savesNote" style="margin-top:0"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROYECTILES ===================== -->
+<section id="proyectiles">
+  <div class="sec-head">
+    <span class="eyebrow">05</span>
+    <h2>Proyectiles especiales</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="callout" style="margin-top:0;margin-bottom:18px">
+    <b>Arsenal del tirador</b> — Municiones para Hookpak, Honda o lanzamiento a mano (nunca arcos ni ballestas).
+    Fabricadas con Herrero, Carpintero, Alfarero o Soplador de Vidrio. Origen:
+    <span class="src make">fabricado</span> <span class="src buy">comprado</span> <span class="src nat">natural</span> <span class="src todo">por conseguir</span>.
+  </div>
+
+  <!-- Stock fabricado destacado -->
+  <div class="invbar">
+    <div class="inv">
+      <div class="big">6<small>/10</small></div>
+      <div class="meta"><b>Estrella de Fuego</b>Listas para usar. Fabricación: Soplador de Vidrio o Alfarero.
+        <span class="bars"><i style="width:60px;background:var(--jade)"></i><i style="width:40px;background:var(--line-2)"></i></span>
+      </div>
+    </div>
+    <div class="inv">
+      <div class="big">4<small> llevados</small></div>
+      <div class="meta"><b>Huevos Podridos</b>4 en el morral colgante. Reserva en casa: 25 en almacén · 60 en proceso (natural).</div>
+    </div>
+    <div class="inv">
+      <div class="big" style="color:var(--sand-d)">1</div>
+      <div class="meta"><b>Caja de huevos</b>Por fabricar (Carpintero). Faltan materiales por conseguir.</div>
+    </div>
+  </div>
+
+  <div class="col2">
+    <div class="card">
+      <h3>Control de movimiento</h3>
+      <table class="tbl">
+        <thead><tr><th>Proyectil</th><th>Efecto</th><th style="width:34%">Materiales · origen</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bolsas de Tachuelas</b></td><td>Área 1,5 m terreno difícil. TS Des CD 13 o Derribado (Prone).</td><td><span class="mats">Tachuelas · bolsa de tela · cordel 3 m</span><br><span class="src make">Herrero</span> <span class="src buy">comprado</span></td></tr>
+          <tr><td><b>Honda Grande</b></td><td>Lanza objetos hasta 1 kg. Rango 15/45 m.</td><td><span class="mats">2 estacas · tira de cuero</span><br><span class="src make">Carpintero</span> <span class="src buy">cuero comprado</span></td></tr>
+          <tr><td><b>Boleadoras</b></td><td>TS Des CD 13 o Apresado (Restrained) 1 turno. Rango 6/18 m.</td><td><span class="mats">Bolas de metal ×2 · cuerda</span><br><span class="src make">Herrero</span> <span class="src buy">cordel comprado</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Alteración sensorial</h3>
+      <table class="tbl">
+        <thead><tr><th>Proyectil</th><th>Efecto</th><th style="width:34%">Materiales · origen</th></tr></thead>
+        <tbody>
+          <tr><td><b>Huevos Podridos</b> <span class="stk">×4 · reserva en casa</span></td><td>TS Con CD 12 o desventaja en Percepción y Carisma 10 min.</td><td><span class="mats">Huevos comunes dejados pudrir</span><br><span class="src nat">natural</span></td></tr>
+          <tr><td><b>Bola de Pimienta</b></td><td>TS Con CD 13 o Cegado (Blinded) 1 turno.</td><td><span class="mats">Pimienta en polvo · polvo de hueso · vial</span><br><span class="src make">Soplador de Vidrio</span></td></tr>
+          <tr><td><b>Bola de Tinta</b></td><td>Desventaja en ataques a distancia 1 turno.</td><td><span class="mats">Tinta negra · resina · vial o jarro</span><br><span class="src make">Soplador / Alfarero</span></td></tr>
+          <tr><td><b>Estrella de Luz</b></td><td>Luz tenue 1,5 m. No puede Esconderse ni ser Invisible. 1 min.</td><td><span class="mats">Mineral / hongo luminoso / cristal molido · vial</span><br><span class="src make">Soplador / Alfarero</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Daño directo y fuego</h3>
+      <table class="tbl">
+        <thead><tr><th>Proyectil</th><th>Efecto</th><th style="width:34%">Materiales · origen</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bola de Acero</b></td><td>Munición estándar. Daño base del arma. Autosuficiente en campo.</td><td><span class="mats">Metal (acero)</span><br><span class="src make">Herrero</span></td></tr>
+          <tr><td><b>Bola de Plata</b></td><td>Ignora resistencias/inmunidades a daño no mágico (DMG 2024).</td><td><span class="mats">Plata (costo mayor)</span><br><span class="src make">Herrero</span></td></tr>
+          <tr><td><b>Estrella de Fuego</b> <span class="stk">6/10</span></td><td>2d4 fuego. Puede encender objetos.</td><td><span class="mats">Fuego alquímico · vial de vidrio o cerámica</span><br><span class="src make">Soplador / Alfarero</span></td></tr>
+          <tr><td><b>Molotov</b></td><td>2d4 fuego. Puede encender objetos. <span style="opacity:.6">(pendiente validar vs Estrella de Fuego)</span></td><td><span class="mats">Botella de vidrio · aceite · paño</span><br><span class="src make">Soplador</span> <span class="src buy">aceite comprado</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Tácticos y contenedores</h3>
+      <table class="tbl">
+        <thead><tr><th>Objeto</th><th>Efecto</th><th style="width:34%">Materiales · origen</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bola de Humo</b></td><td>Zona oscurecida 1,5 m radio. Cegado (Blinded). 1 min. Se disipa con viento fuerte.</td><td><span class="mats">Resina · aceite · tiza · vial o jarro</span><br><span class="src make">Soplador / Alfarero</span> <span class="src buy">comprado</span></td></tr>
+          <tr><td><b>Caja de huevos</b></td><td>4 compartimentos acolchados. Va en el morral colgante. Fast Crafting en descanso largo.</td><td><span class="mats">Tablas de madera · paja o tela · clavos</span><br><span class="src make">Carpintero</span> <span class="src todo">por conseguir</span></td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-bottom:6px"><strong>Compatibles con Honda Grande</strong> (hasta 1 kg · 15/45 m):</p>
+      <div class="chips">
+        <span class="chip">Frasco de aceite · 0,5 kg</span><span class="chip">Bomba de humo · 0,4 kg</span>
+        <span class="chip">Red improvisada · 0,8 kg</span><span class="chip">Jarro · 0,6 kg</span>
+        <span class="chip">Roca · 0,7 kg</span><span class="chip">Veneno/ácido · 0,5 kg</span>
+        <span class="chip">Bola de pimienta · 0,5 kg</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HISTORIA ===================== -->
+<section id="historia">
+  <div class="sec-head">
+    <span class="eyebrow">06</span>
+    <h2>Crónica del Viento Eterno</h2>
+    <span class="rule"></span>
+  </div>
+
+  <div class="story-grid">
+    <div class="prose">
+      <div class="story-block">
+        <p class="lead">El viento nunca deja de soplar, aunque a veces cambia de dirección. Usoryn creció en Brisasol, una aldea halfling en lo alto de los acantilados que vivía en armonía con el viento. Sus habitantes narraban historias tanto como navegaban, y en las noches claras los cuentos se elevaban con la brisa hasta perderse en el horizonte.</p>
+        <p>Una noche sin luna, una niebla espesa descendió sobre Brisasol y llegaron los barcos: embarcaciones fantasmales con velas de sombra y tripulaciones de ojos vacíos. Los Corsarios Fantasma arrasaron la aldea. Usoryn corrió advirtiendo a todos, pero su fama de cuentista hizo que nadie le creyera hasta que fue tarde. Capturaron a su madre Lyra y a los aldeanos. Él escapó rodando dentro de un barril hasta los acantilados, desde donde vio los barcos desvanecerse en la niebla.</p>
+        <p>Desde entonces vagó por ciudades y caminos, sobreviviendo como cuentacuentos y farsante, jurando recuperar a su familia y vengarse, aunque tuviera que engañar al destino para lograrlo. Con el amuleto de jade como única pista real, partió con una sonrisa desafiante y el viento a su espalda.</p>
+      </div>
+
+      <div class="story-block">
+        <div class="story-h">El Amuleto de Jade</div>
+        <p>Antes del ataque, su madre le entregó una piedra de jade con inscripciones en un idioma desconocido. Durante años creyó que era un simple recuerdo, hasta que un erudito lo reconoció como un <b>Fragmento del Ojo de la Tormenta</b>: parte de un mapa perdido que conduce a un santuario oculto en el Mar de Estrellas, donde descansa un artefacto capaz de controlar los vientos.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="story-block">
+        <div class="story-h">Apariencia y carácter</div>
+        <p style="font-size:.86rem;color:var(--ink-2);line-height:1.6">Halfling ágil y atlético, cabello castaño despeinado y ojos ámbar llenos de picardía. Cuero tachonado con remaches visibles, capa corta con capucha, cinturón repleto de bolsas y un broquel en la muñeca izquierda. Cuentacuentos, embaucador y escapista nato; vive de su ingenio.</p>
+        <div class="quote">"Yo fui el arquero que derribó al Dragón de Cristal." · "Navegué por los cielos en un barco de relámpagos." · "Derroté a un ogro con una sola flecha… ¡bueno, con una flecha y mucha suerte!"</div>
+        <div class="motiv">
+          <b>Motivaciones:</b> recuperar a su madre Lyra, descubrir el destino de su padre Aeryn, encontrar el Ojo de la Tormenta y enfrentar a los Corsarios Fantasma.<br><br>
+          <b>Conflicto interno:</b> ¿es el héroe que dice ser, o solo cuenta la historia hasta que alguien más salve el día?
+        </div>
+      </div>
+
+      <div class="story-block">
+        <div class="story-h">Personajes clave</div>
+        <div class="npcs">
+          <div class="npc"><b>Lyra Bravoviento</b><p>Madre, narradora y líder de Brisasol. Su voz podía hablar con el viento.</p><span class="stt">Capturada</span></div>
+          <div class="npc"><b>Aeryn Bravoviento</b><p>Padre, navegante. Partió tras un secreto en el Mar de Estrellas y no regresó.</p><span class="stt">Desaparecido</span></div>
+          <div class="npc"><b>Marden el Cazavientos</b><p>Anciano del consejo, guardián de las historias antiguas.</p><span class="stt">Posiblemente muerto</span></div>
+          <div class="npc"><b>Thaleah Nieblaonda</b><p>Capitana de los Corsarios Fantasma. Fría y obsesionada con los secretos del viento.</p><span class="stt">Desconocido</span></div>
+        </div>
+      </div>
+
+      <div class="story-block">
+        <div class="story-h">Misterios abiertos</div>
+        <div class="myst">
+          <div>¿Quién controla a los Corsarios Fantasma?</div>
+          <div>¿Existe realmente el Ojo de la Tormenta?</div>
+          <div>¿Qué aguarda en las ruinas de Brisasol?</div>
+          <div>¿Cuál es el verdadero propósito de Thaleah?</div>
+          <div>¿Está vivo Aeryn Bravoviento?</div>
+          <div>¿Cómo restaurar la bendición del viento?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="t">"El viento nunca deja de soplar, aunque a veces cambia de dirección."</div>
+  <div class="s">Usoryn Bravoviento · Hoja consolidada al Nivel 6 · D&amp;D 2024</div>
+</footer>
+
+</main>
+
+<script>
+  const DEX = 5;
+  const armor = [
+    { slot:'Cuerpo', name:'Cuero Tachonado', type:'armor', base:12, equipped:true },
+    { slot:'Muñeca', name:'Broquel de Muñeca', type:'shield', ac:1, equipped:true },
+    { slot:'Dedo', name:'Anillo de Protección', type:'magic', ac:1, save:1, attune:true, equipped:true },
+    { slot:'Hombros', name:'Capa de Protección', type:'magic', ac:1, save:1, attune:true, equipped:true },
+    { slot:'Cuello', name:'Amuleto de Jade', type:'plot', ac:0, save:0, equipped:true, locked:true, note:'Trama · poder dormido' },
+  ];
+  const weapons = [
+    { slot:'Principal', name:'Hookpak', bonus:'5 modos · Vex / Sap' },
+    { slot:'Secundaria', name:'Espada Corta', bonus:'1d6+5 · Vex' },
+    { slot:'A distancia', name:'Honda', bonus:'1d4+5 · 30/120' },
+  ];
+  const containers = [
+    { icon:'🎒', name:'Mochila', desc:'Objetos grandes y de campamento',
+      items:['Raciones <span class="qty">×5 días</span>','Cuerda <span class="qty">15 m</span>','Odre de agua','Linterna con capucha','Velas <span class="qty">×10</span>','Frascos de aceite <span class="qty">×7</span>','Pedernal y yesca','Pata de cabra'] },
+    { icon:'👜', name:'Morral colgante', desc:'Munición y proyectiles listos',
+      items:['Bolas de metal <span class="qty">(munición)</span>','Bolas de plata <span class="qty">×2</span>','Estrellas de Fuego <span class="qty">×6</span>','Huevos podridos <span class="qty">×4</span>','Bolas de pimienta','Bolas de humo','Boleadoras','Campana'] },
+    { icon:'🧷', name:'Morral de cinturón · 1', desc:'Herramientas y materias primas',
+      items:['Herramientas de Ladrón','Fuego alquímico','Tinta · resina','Pimienta · polvo de hueso','Viales de vidrio y cerámica','Tachuelas · cordel','Tira de cuero · estacas'] },
+    { icon:'🧷', name:'Morral de cinturón · 2', desc:'Objetos pequeños y valiosos',
+      items:['<span class="ci-item coin">340 GP</span>'] },
+    { icon:'🪵', name:'Baúl en casa', desc:'Donde me esté quedando · no lo cargo', home:true,
+      items:['Huevos podridos <span class="qty">×25 en almacén</span>','Huevos pudriéndose <span class="qty">×60 en proceso</span>','Materias primas de repuesto','Fuego alquímico de reserva','Viales y frascos vacíos','Tablas de madera · clavos','Ropa de muda','Recuerdos de Brisasol'] },
+  ];
+  function renderArmor(){
+    const c=document.getElementById('armorSlots');c.innerHTML='';
+    armor.forEach(it=>{
+      const d=document.createElement('div');
+      d.className='slot'+(it.locked?' locked':'');
+      let bn=it.type==='armor'?`CA ${it.base} + Des`:(it.ac||it.save)?[it.ac?`+${it.ac} CA`:'',it.save?`+${it.save} salv.`:''].filter(Boolean).join(' · '):(it.note||'');
+      d.innerHTML=`<span class="sl">${it.slot}</span><span class="it">${it.name}</span><span class="bn">${bn}</span>${it.attune?'<span class="at">Sintonizado</span>':''}${!it.locked?'<span class="st">Equipado</span>':''}`;
+      c.appendChild(d);
+    });
+  }
+  function renderWeapons(){
+    const c=document.getElementById('weaponSlots');c.innerHTML='';
+    weapons.forEach(it=>{
+      const d=document.createElement('div');d.className='slot';
+      d.innerHTML=`<span class="sl">${it.slot}</span><span class="it">${it.name}</span><span class="bn">${it.bonus}</span><span class="st">Equipada</span>`;
+      c.appendChild(d);
+    });
+  }
+  function renderContainers(){
+    const c=document.getElementById('containers');c.innerHTML='';
+    let homeSep=false;
+    containers.forEach(ct=>{
+      if(ct.home&&!homeSep){
+        homeSep=true;
+        const sep=document.createElement('div');
+        sep.style.cssText='display:flex;align-items:center;gap:10px;margin:16px 0 11px;font-size:.66rem;font-family:Space Grotesk,sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a6d2e';
+        sep.innerHTML='<span style="flex:none">No transportado</span><span style="flex:1;height:1px;background:#EAD9A8"></span>';
+        c.appendChild(sep);
+      }
+      const box=document.createElement('div');box.className='container'+(ct.home?' home':'');
+      const items=ct.items.map(it=>it.includes('ci-item')?it:`<span class="ci-item">${it}</span>`).join('');
+      const tag=ct.home?'<span class="home-tag">🔒 En casa</span>':'';
+      box.innerHTML=`<div class="ch"><span class="ci">${ct.icon}</span><span class="cn">${ct.name}</span><span class="cd">${ct.desc}</span>${tag}</div><div class="cb">${items}</div>`;
+      c.appendChild(box);
+    });
+  }
+  function recalc(){
+    let ac=10,rows=[];
+    const body=armor.find(a=>a.type==='armor'&&a.equipped);
+    if(body){ac=body.base+DEX;rows.push({l:body.name,v:body.base});rows.push({l:'Destreza',v:'+'+DEX});}
+    armor.forEach(a=>{if(a.type==='armor'||!a.equipped||!a.ac)return;rows.push({l:a.name,v:'+'+a.ac});ac+=a.ac;});
+    document.getElementById('acNum').textContent=ac;
+    const bd=document.getElementById('breakdown');bd.innerHTML='';
+    rows.forEach(r=>{const d=document.createElement('div');d.className='bd-row';d.innerHTML=`<span>${r.l}</span><span class="v">${r.v}</span>`;bd.appendChild(d);});
+    const t=document.createElement('div');t.className='bd-row tot';t.innerHTML=`<span>CA Total</span><span class="v">${ac}</span>`;bd.appendChild(t);
+    const attuned=armor.filter(a=>a.attune&&a.equipped).length;
+    for(let k=0;k<3;k++)document.getElementById('at'+k).classList.toggle('on',k<attuned);
+    document.getElementById('atLabel').textContent=attuned+'/3';
+    const sb=armor.filter(a=>a.save&&a.equipped).reduce((s,a)=>s+a.save,0);
+    document.getElementById('savesNote').innerHTML=sb>0?`Anillo y Capa otorgan <strong>+${sb} a todas las salvaciones</strong> y +${sb} a la CA.`:'Sin bonos de objeto.';
+  }
+  renderArmor();renderWeapons();renderContainers();recalc();
+
+  // nav active state on scroll
+  const secs=[...document.querySelectorAll('section,header.hero')];
+  const links=[...document.querySelectorAll('.nav a')];
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){
+      const id=e.target.id;links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id));
+    }});
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(s=>obs.observe(s));
+</script>
+
+</body>
+</html>
