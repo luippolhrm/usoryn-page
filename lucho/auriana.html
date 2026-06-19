@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auriana Grandhe — Hoja de Personaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBFBFD; --ink:#1E1A24; --ink-2:#4A4453; --ink-3:#6B6577;
+    --gold:#D6A33A; --gold-d:#A87B1E; --gold-soft:#F6ECD4;
+    --rose:#C9657F; --rose-d:#A8425C; --rose-soft:#F7E6EB;
+    --violet:#6B5B95; --violet-d:#534578; --violet-soft:#ECE7F3;
+    --dawn:#E8B7A0; --dawn-soft:#FBEDE5;
+    --mist:#F0EEF4; --line:#E3DFE9; --line-2:#D2CCDC;
+    --bad:#C04A3E; --good:#2E8B57; --good-soft:#E2F1E9;
+    --shadow:0 1px 2px rgba(30,26,36,.04),0 4px 16px rgba(30,26,36,.06);
+    --shadow-lg:0 2px 8px rgba(30,26,36,.06),0 12px 36px rgba(30,26,36,.10);
+    --r:14px; --r-sm:9px;
+    --nav-h:54px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 14px)}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+    line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);
+    background:rgba(251,251,253,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;gap:18px;height:100%}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;
+    font-weight:600;font-size:17px;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .brand .back{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;
+    border-radius:8px;border:1px solid var(--line);color:var(--violet);background:#fff;transition:.18s;font-size:16px}
+  .brand .back:hover{background:var(--violet);color:#fff;border-color:var(--violet)}
+  .navlinks{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{font-size:13px;font-weight:500;color:var(--ink-2);text-decoration:none;
+    padding:7px 11px;border-radius:8px;white-space:nowrap;transition:.15s}
+  .navlinks a:hover{background:var(--mist);color:var(--ink)}
+  .navlinks a.active{background:var(--violet-soft);color:var(--violet);font-weight:600}
+
+  /* HERO */
+  .hero{position:relative;padding:38px 0 30px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;
+    background:radial-gradient(120% 80% at 78% -10%,var(--gold-soft) 0%,transparent 55%),
+      radial-gradient(90% 70% at 8% 0%,var(--rose-soft) 0%,transparent 50%);opacity:.85}
+  /* Motas de luz del alba ascendentes */
+  .motes{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .mote{position:absolute;bottom:-14px;border-radius:50%;
+    background:radial-gradient(circle,rgba(231,184,95,1) 0%,rgba(231,184,95,.55) 40%,transparent 72%);
+    box-shadow:0 0 8px 2px rgba(231,184,95,.45);
+    animation:rise linear infinite;opacity:0}
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0) scale(.5);opacity:0}
+    10%{opacity:1}
+    75%{opacity:.85}
+    100%{transform:translateY(-300px) translateX(var(--drift,14px)) scale(1.1);opacity:0}
+  }
+  @media(prefers-reduced-motion:reduce){.motes{display:none}}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{font-family:'Space Grotesk',monospace;font-size:12px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px}
+  .hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,6vw,52px);
+    line-height:1.02;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px}
+  .hero .sub{font-size:15px;color:var(--ink-2);max-width:52ch;margin-bottom:20px}
+  .hero .sub b{color:var(--violet);font-weight:600}
+
+  /* Cabecera estilo Usoryn: título izq + nivel/clase der */
+  .hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+  .hero-head .hh-left{flex:1;min-width:280px}
+  .hero-head .hh-right{text-align:right;flex-shrink:0;padding-top:6px}
+  .hh-right .lvl-n{font-family:'Fraunces',serif;font-weight:700;font-size:26px;line-height:1;color:var(--violet)}
+  .hh-right .cls-main{font-size:14.5px;color:var(--ink-2);margin-top:6px}
+  .hh-right .cls-sub{font-size:13px;color:var(--ink-3);margin-top:2px}
+
+  /* Chips de metadatos */
+  .meta-chips{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 22px}
+  .chip{font-size:12.5px;color:var(--ink-2);background:#fff;border:1px solid var(--line);
+    border-radius:20px;padding:6px 14px}
+  .chip b{color:var(--ink);font-weight:600}
+
+  .tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+    padding:12px;box-shadow:var(--shadow);position:relative}
+  .tile .lbl{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--ink-2);margin-bottom:3px}
+  .tile .val{font-family:'Space Grotesk',monospace;font-weight:700;font-size:25px;line-height:1;color:var(--ink)}
+  .tile .val small{font-size:13px;font-weight:600;color:var(--ink-2)}
+  .tile.accent .val{color:var(--violet)} .tile.gold .val{color:var(--gold-d)} .tile.good .val{color:var(--good)}
+
+  /* SECTIONS */
+  section{padding:34px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:13px;margin-bottom:6px}
+  .sec-head .n{font-family:'Space Grotesk',monospace;font-size:13px;font-weight:600;color:var(--gold-d);letter-spacing:.05em}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;letter-spacing:-.01em;color:var(--ink)}
+  .sec-head .hint{margin-left:auto;font-size:12.5px;color:var(--ink-2);max-width:34ch;text-align:right}
+  .sec-intro{font-size:14px;color:var(--ink-2);max-width:70ch;margin-bottom:20px}
+
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+
+  /* Definiciones (estados, acciones) estilo Darvin */
+  .defs{display:grid;grid-template-columns:repeat(2,1fr);gap:11px 16px}
+  .def{font-size:12.5px;line-height:1.5}
+  .def dt{font-weight:600;color:var(--ink);margin-bottom:2px;display:flex;align-items:center;gap:7px}
+  .def dt .en{font-family:'Space Grotesk',monospace;font-size:10px;font-weight:600;color:var(--ink-3);
+    background:var(--mist);padding:1px 6px;border-radius:4px;text-transform:none;letter-spacing:0}
+  .def dd{color:var(--ink-2);margin:0}
+  .def dd b{color:var(--ink)}
+  .def.cure dt{color:var(--good)} .def.cure dt .tag{font-size:9.5px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;background:var(--good-soft);color:var(--good);padding:1px 7px;border-radius:20px}
+  .def.apply dt .tag{font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    background:var(--rose-soft);color:var(--rose-d);padding:1px 7px;border-radius:20px}
+  @media(max-width:680px){.defs{grid-template-columns:1fr}}
+
+  .card h3{font-family:'Fraunces',serif;font-weight:600;font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .card h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+  /* ABILITY BLOCKS — estilo Usoryn/Darvin (con habilidades dentro) */
+  .abils{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:start}
+  .abil{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+    overflow:hidden;display:flex;flex-direction:column}
+  .abil .ab-top{padding:13px 10px 11px;text-align:center;position:relative}
+  .abil .ab-top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--rose))}
+  .abil .name{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+  .abil .mod{font-family:'Space Grotesk',monospace;font-weight:700;font-size:30px;line-height:1.05;color:var(--ink);margin:3px 0 4px}
+  .abil .score{display:inline-block;font-family:'Space Grotesk',monospace;font-size:12px;font-weight:700;
+    color:#fff;background:var(--ink);padding:2px 9px;border-radius:20px}
+  .abil .ab-list{display:flex;flex-direction:column}
+  .abil .ab-row{display:flex;justify-content:space-between;align-items:center;gap:6px;
+    padding:6px 10px;font-size:11.5px;border-top:1px solid var(--mist)}
+  .abil .ab-row .rn{color:var(--ink-2);display:flex;align-items:center;gap:5px}
+  .abil .ab-row .rv{font-family:'Space Grotesk',monospace;font-weight:600;color:var(--ink);flex-shrink:0}
+  .abil .ab-row.sv{background:var(--violet-soft)}
+  .abil .ab-row.sv .rn{color:var(--violet);font-weight:600} .abil .ab-row.sv .rv{color:var(--violet)}
+  .abil .ab-row .pc{width:5px;height:5px;border-radius:50%;background:var(--violet);flex-shrink:0}
+  .abil .ab-row .pc.exp{background:var(--gold-d)}
+  .abil .ab-note{padding:7px 10px;font-size:10.5px;color:var(--ink-3);border-top:1px solid var(--mist);font-style:italic}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-2);padding:0 8px 8px;border-bottom:1px solid var(--line)}
+  td{padding:9px 8px;border-bottom:1px solid var(--mist);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .mono{font-family:'Space Grotesk',monospace;font-weight:600}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--mist);color:var(--ink-2);margin:1px 0}
+  .pill.gold{background:var(--gold-soft);color:var(--gold-d)} .pill.rose{background:var(--rose-soft);color:var(--rose-d)}
+  .pill.violet{background:var(--violet-soft);color:var(--violet)} .pill.good{background:var(--good-soft);color:var(--good)}
+
+  /* SPELL / FEATURE CARDS */
+  .fcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 17px;box-shadow:var(--shadow);
+    position:relative;overflow:hidden}
+  .fcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold)}
+  .fcard.heal::before{background:var(--good)} .fcard.buff::before{background:var(--violet)}
+  .fcard.dmg::before{background:var(--rose)} .fcard.util::before{background:var(--gold)}
+  .fcard .ftop{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+  .fcard .fname{font-family:'Fraunces',serif;font-weight:600;font-size:16px}
+  .fcard .fmeta{font-family:'Space Grotesk',monospace;font-size:11.5px;font-weight:600;color:var(--gold-d);
+    margin-left:auto;background:var(--gold-soft);padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .fcard .fmeta.big{font-size:13px}
+  .frow{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);margin-bottom:9px;
+    font-family:'Space Grotesk',monospace;font-weight:500}
+  .frow span b{color:var(--ink-2);font-weight:600}
+  .fcard .fdesc{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+  .fcard .fdesc b{color:var(--ink);font-weight:600}
+  .fcalc{margin-top:10px;padding:9px 11px;background:var(--mist);border-radius:var(--r-sm);
+    font-size:12.5px;color:var(--ink-2)}
+  .fcalc .lab{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:3px}
+  .fcalc b{font-family:'Space Grotesk',monospace;color:var(--good);font-weight:700}
+  .fcalc.dmg b{color:var(--rose-d)}
+
+  /* Línea de escalado (trucos por nivel, conjuros por espacio) */
+  .fscale{margin-top:8px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--ink-2);font-family:'Space Grotesk',monospace}
+  .fscale .stag{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    background:var(--sky-soft,var(--violet-soft));color:var(--violet);padding:2px 7px;border-radius:20px;flex-shrink:0}
+  .fscale .sval{color:var(--ink-2)}
+  .fscale .sval b{color:var(--ink);font-weight:600}
+
+  .callout{background:linear-gradient(180deg,var(--good-soft),#fff);border:1px solid var(--good);
+    border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+  .callout h3{font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--good);margin-bottom:8px}
+  .callout p{font-size:13.5px;color:var(--ink-2)} .callout b{color:var(--ink)}
+
+  /* Panel de espacios de conjuro */
+  .slots{display:flex;gap:12px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);
+    border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow);align-items:center}
+  .slot-grp{display:flex;align-items:center;gap:10px}
+  .slot-grp .sl-lbl{font-family:'Space Grotesk',monospace;font-size:12px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2)}
+  .slot-grp .pips{display:flex;gap:4px}
+  .pip{width:15px;height:15px;border:1.5px solid var(--violet);background:var(--violet-soft);
+    transform:rotate(45deg);border-radius:2px}
+  .slot-grp .ct{font-family:'Space Grotesk',monospace;font-size:13px;font-weight:700;color:var(--violet)}
+  .slot-div{width:1px;height:26px;background:var(--line)}
+
+  /* EQUIPO estilo Usoryn/Darvin */
+  .eq-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 15px;box-shadow:var(--shadow)}
+  .eq-card .eq-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+  .eq-card .eq-slot{font-family:'Space Grotesk',monospace;font-size:9.5px;font-weight:700;
+    letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+  .eq-card .eq-badge{font-family:'Space Grotesk',monospace;font-size:9px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;padding:2px 8px;border-radius:20px;background:var(--good-soft);color:var(--good)}
+  .eq-card .eq-badge.att{background:var(--violet-soft);color:var(--violet)}
+  .eq-card .eq-badge.no{background:var(--mist);color:var(--ink-3)}
+  .eq-card .eq-name{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--ink);margin-bottom:3px}
+  .eq-card .eq-desc{font-size:12px;color:var(--ink-2);line-height:1.45}
+  .eq-card .eq-desc b{color:var(--ink)}
+  .eq-card.special{background:var(--gold-soft);border-color:var(--gold-l)}
+
+  /* Panel de CA */
+  .ca-big{background:var(--violet);color:#fff;border-radius:var(--r);padding:22px;text-align:center;box-shadow:var(--shadow)}
+  .ca-big .ca-n{font-family:'Fraunces',serif;font-weight:700;font-size:46px;line-height:1}
+  .ca-big .ca-l{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;margin-top:4px;opacity:.9}
+  .ca-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);margin-top:14px}
+  .ca-panel h3{font-family:'Fraunces',serif;font-weight:600;font-size:15px;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+  .ca-panel h3 .dot{width:7px;height:7px;border-radius:50%;background:var(--violet);flex-shrink:0}
+  .ca-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--mist);font-size:13px;color:var(--ink-2)}
+  .ca-row .v{font-family:'Space Grotesk',monospace;font-weight:600;color:var(--ink)}
+  .ca-row.total{border-bottom:none;border-top:2px solid var(--line);margin-top:2px;padding-top:9px;font-weight:600;color:var(--ink)}
+  .ca-row.total .v{color:var(--violet);font-size:15px}
+  .att-row{display:flex;justify-content:space-between;align-items:center;margin-top:11px;font-size:11px;
+    font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3)}
+  .att-dots{display:flex;gap:5px}
+  .att-dots .ad{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--violet)}
+  .att-dots .ad.on{background:var(--violet)}
+
+  /* Contenedores */
+  .cont{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:15px 17px;box-shadow:var(--shadow);margin-bottom:12px}
+  .cont .cont-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px;gap:10px}
+  .cont .cont-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .cont .cont-tag{font-size:11.5px;color:var(--ink-3);font-style:italic}
+  .cont .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .cont .ic{font-size:12px;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+  .cont .ic b{color:var(--ink);font-weight:600}
+  .cont .ic small{color:var(--ink-3)}
+
+
+  /* Separador de grupo de conjuros con contador */
+  .grp-head{margin:8px 0 13px}
+  .grp-head .gh-row{display:flex;align-items:center;gap:11px}
+  .grp-head .gt{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--ink)}
+  .grp-head .gc{font-family:'Space Grotesk',monospace;font-size:11px;font-weight:700;
+    background:var(--mist);color:var(--ink-2);padding:2px 9px;border-radius:20px;letter-spacing:.03em}
+  .grp-head .gc.dom{background:var(--violet-soft);color:var(--violet)}
+  .grp-head .gline{flex:1;height:1px;background:var(--line)}
+  .grp-head .gh-note{font-size:12.5px;color:var(--ink-3);margin-top:5px}
+  .grp-head .gh-note b{color:var(--ink-2)}
+
+  /* Grilla de habilidades */
+  .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px}
+  .skill{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#fff;
+    border:1px solid var(--line);border-radius:var(--r-sm);font-size:13px}
+  .skill.prof{background:var(--violet-soft);border-color:var(--violet)}
+  .skill .sk-mod{font-family:'Space Grotesk',monospace;font-weight:700;font-size:14px;
+    color:var(--ink);min-width:26px;text-align:center}
+  .skill.prof .sk-mod{color:var(--violet)}
+  .skill .sk-name{flex:1;color:var(--ink-2)}
+  .skill.prof .sk-name{color:var(--ink);font-weight:600}
+  .skill .sk-ab{font-family:'Space Grotesk',monospace;font-size:10px;font-weight:600;
+    color:var(--ink-3);text-transform:uppercase;letter-spacing:.03em}
+  .skill .sk-star{color:var(--violet);font-size:11px}
+  @media(max-width:760px){.skills{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.skills{grid-template-columns:1fr}}
+
+  /* Historia narrativa */
+  .lore{max-width:780px;margin:0 auto}
+  .lore .chronicle{background:#fff;border:1px solid var(--line);border-radius:var(--r);
+    padding:26px 30px;box-shadow:var(--shadow);margin-bottom:18px}
+  .lore .chronicle h3{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--gold-d);
+    margin:18px 0 9px}
+  .lore .chronicle h3:first-child{margin-top:0}
+  .lore .chronicle p{font-size:14.5px;color:var(--ink-2);margin-bottom:13px;line-height:1.7}
+  .lore .chronicle p b{color:var(--ink)} .lore .chronicle p i{color:var(--violet)}
+  .lore .chronicle p:first-of-type::first-letter{font-family:'Fraunces',serif;font-size:52px;
+    font-weight:600;float:left;line-height:.8;margin:6px 9px 0 0;color:var(--gold-d)}
+
+  .lore-sub{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--ink);
+    margin:26px 0 14px;display:flex;align-items:center;gap:11px}
+  .lore-sub::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* Citas del personaje */
+  .quotes{display:flex;flex-direction:column;gap:9px;margin-bottom:6px}
+  .quote{background:var(--gold-soft);border-left:3px solid var(--gold);padding:11px 16px;
+    font-family:'Fraunces',serif;font-style:italic;font-size:14.5px;color:var(--gold-d)}
+
+  /* Tarjetas de personajes clave */
+  .npcs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .npc{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;
+    box-shadow:var(--shadow);position:relative}
+  .npc .nn{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--ink);margin-bottom:3px}
+  .npc .nd{font-size:12.5px;color:var(--ink-2);line-height:1.5;margin-bottom:9px}
+  .npc .nbadge{display:inline-block;font-family:'Space Grotesk',monospace;font-size:10px;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;padding:2px 9px;border-radius:20px}
+  .npc .nbadge.aliada{background:var(--good-soft);color:var(--good)}
+  .npc .nbadge.mentor{background:var(--gold-soft);color:var(--gold-d)}
+  .npc .nbadge.celeste{background:var(--violet-soft);color:var(--violet)}
+  .npc .nbadge.perdido{background:var(--mist);color:var(--ink-3)}
+  .npc .nbadge.amenaza{background:var(--rose-soft);color:var(--rose-d)}
+
+  /* Misterios abiertos */
+  .mysteries{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .mystery{background:var(--violet-soft);border:1px solid var(--violet);border-radius:var(--r-sm);
+    padding:12px 15px;font-size:13.5px;color:var(--violet);font-weight:500;display:flex;gap:9px;align-items:flex-start}
+  .mystery .qm{font-family:'Fraunces',serif;font-weight:700;font-size:18px;line-height:1;flex-shrink:0}
+
+  .motiv{background:var(--mist);border-radius:var(--r-sm);padding:14px 17px;margin-bottom:6px}
+  .motiv b{color:var(--ink)}
+
+  @media(max-width:680px){.npcs{grid-template-columns:1fr} .mysteries{grid-template-columns:1fr}}
+
+  .footer{padding:40px 0 60px;text-align:center;color:var(--ink-2);font-size:13px;border-top:1px solid var(--line)}
+  .footer b{color:var(--violet)}
+
+  @media(max-width:820px){.tiles{grid-template-columns:repeat(3,1fr)} .abils{grid-template-columns:repeat(3,1fr)}
+    .g4{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.tiles{grid-template-columns:repeat(2,1fr)} .abils{grid-template-columns:repeat(2,1fr)}
+    .g2,.g3,.g4{grid-template-columns:1fr} .sec-head .hint{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="../index.html"><span class="back">←</span> Auriana</a>
+  <div class="navlinks">
+    <a href="#resumen" class="active">Resumen</a>
+    <a href="#combate">Combate</a>
+    <a href="#conjuros">Conjuros</a>
+    <a href="#canalizar">Canalizar</a>
+    <a href="#rasgos">Rasgos</a>
+    <a href="#equipo">Equipo</a>
+    <a href="#historia">Historia</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="resumen">
+  <div class="motes" aria-hidden="true">
+    <span class="mote" style="left:5%;width:7px;height:7px;animation-duration:8s;animation-delay:0s;--drift:18px"></span>
+    <span class="mote" style="left:12%;width:5px;height:5px;animation-duration:10s;animation-delay:1.4s;--drift:-12px"></span>
+    <span class="mote" style="left:19%;width:8px;height:8px;animation-duration:7s;animation-delay:3s;--drift:22px"></span>
+    <span class="mote" style="left:26%;width:6px;height:6px;animation-duration:11s;animation-delay:.6s;--drift:-16px"></span>
+    <span class="mote" style="left:33%;width:5px;height:5px;animation-duration:9s;animation-delay:2.2s;--drift:10px"></span>
+    <span class="mote" style="left:40%;width:7px;height:7px;animation-duration:8.5s;animation-delay:4s;--drift:-20px"></span>
+    <span class="mote" style="left:47%;width:6px;height:6px;animation-duration:10.5s;animation-delay:1s;--drift:16px"></span>
+    <span class="mote" style="left:54%;width:8px;height:8px;animation-duration:7.5s;animation-delay:2.8s;--drift:-14px"></span>
+    <span class="mote" style="left:61%;width:5px;height:5px;animation-duration:9.5s;animation-delay:3.6s;--drift:20px"></span>
+    <span class="mote" style="left:68%;width:7px;height:7px;animation-duration:8s;animation-delay:.3s;--drift:-10px"></span>
+    <span class="mote" style="left:75%;width:6px;height:6px;animation-duration:11s;animation-delay:2s;--drift:14px"></span>
+    <span class="mote" style="left:82%;width:8px;height:8px;animation-duration:7s;animation-delay:3.4s;--drift:-18px"></span>
+    <span class="mote" style="left:88%;width:5px;height:5px;animation-duration:10s;animation-delay:1.7s;--drift:12px"></span>
+    <span class="mote" style="left:93%;width:7px;height:7px;animation-duration:8.5s;animation-delay:.9s;--drift:-22px"></span>
+    <span class="mote" style="left:97%;width:6px;height:6px;animation-duration:9s;animation-delay:4.2s;--drift:16px"></span>
+    <span class="mote" style="left:9%;width:6px;height:6px;animation-duration:9.5s;animation-delay:5s;--drift:-14px"></span>
+    <span class="mote" style="left:44%;width:7px;height:7px;animation-duration:8s;animation-delay:5.6s;--drift:18px"></span>
+    <span class="mote" style="left:78%;width:5px;height:5px;animation-duration:10.5s;animation-delay:4.8s;--drift:-12px"></span>
+  </div>
+  <div class="wrap">
+    <div class="hero-head">
+      <div class="hh-left">
+        <div class="eyebrow">Luz Nacida del Alba</div>
+        <h1>Auriana Grandhe</h1>
+        <p class="sub">Guardiana del Santuario del Alba, portadora de un fénix de plata, faro de The Everlight.</p>
+      </div>
+      <div class="hh-right">
+        <div class="lvl-n">Nivel 3</div>
+        <div class="cls-main">Clériga</div>
+        <div class="cls-sub">Subclase: Dominio de la Vida</div>
+      </div>
+    </div>
+    <div class="meta-chips">
+      <span class="chip">Especie <b>Aasimar</b> (Mediano)</span>
+      <span class="chip">Trasfondo <b>Ermitaña</b></span>
+      <span class="chip">Alineamiento <b>Legal Bueno</b></span>
+      <span class="chip">Competencia <b>+2</b></span>
+      <span class="chip">Ojos <b>violeta dorado</b> · Cabello <b>plateado</b></span>
+    </div>
+    <div class="tiles">
+      <div class="tile accent"><div class="lbl">Clase Arm.</div><div class="val">19</div></div>
+      <div class="tile"><div class="lbl">Puntos Golpe</div><div class="val">23</div></div>
+      <div class="tile"><div class="lbl">Iniciativa</div><div class="val">+0</div></div>
+      <div class="tile"><div class="lbl">Velocidad</div><div class="val">30<small>ft</small></div></div>
+      <div class="tile"><div class="lbl">Perc. Pasiva</div><div class="val">13</div></div>
+      <div class="tile gold"><div class="lbl">CD Conjuro</div><div class="val">13</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- COMBATE -->
+<section id="combate">
+  <div class="sec-head"><span class="n">01</span><h2>Combate</h2></div>
+
+  <div class="abils" style="margin-bottom:16px">
+    <div class="abil">
+      <div class="ab-top"><div class="name">Fuerza</div><div class="mod">+1</div><span class="score">13</span></div>
+      <div class="ab-list">
+        <div class="ab-row"><span class="rn">Salvación</span><span class="rv">+1</span></div>
+        <div class="ab-row"><span class="rn">Atletismo</span><span class="rv">+1</span></div>
+      </div>
+    </div>
+    <div class="abil">
+      <div class="ab-top"><div class="name">Destreza</div><div class="mod">+0</div><span class="score">10</span></div>
+      <div class="ab-list">
+        <div class="ab-row"><span class="rn">Salvación</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn">Acrobacias</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn">Juego de Manos</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn">Sigilo</span><span class="rv">+0</span></div>
+      </div>
+    </div>
+    <div class="abil">
+      <div class="ab-top"><div class="name">Constitución</div><div class="mod">+2</div><span class="score">15</span></div>
+      <div class="ab-list">
+        <div class="ab-row"><span class="rn">Salvación</span><span class="rv">+2</span></div>
+      </div>
+    </div>
+    <div class="abil">
+      <div class="ab-top"><div class="name">Inteligencia</div><div class="mod">+0</div><span class="score">11</span></div>
+      <div class="ab-list">
+        <div class="ab-row"><span class="rn">Salvación</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn">C. Arcano</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn"><span class="pc"></span>Historia</span><span class="rv">+2</span></div>
+        <div class="ab-row"><span class="rn">Investigación</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn">Naturaleza</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn"><span class="pc"></span>Religión</span><span class="rv">+2</span></div>
+      </div>
+    </div>
+    <div class="abil">
+      <div class="ab-top"><div class="name">Sabiduría</div><div class="mod">+3</div><span class="score">17</span></div>
+      <div class="ab-list">
+        <div class="ab-row sv"><span class="rn"><span class="pc"></span>Salvación</span><span class="rv">+5</span></div>
+        <div class="ab-row"><span class="rn"><span class="pc"></span>Perspicacia</span><span class="rv">+5</span></div>
+        <div class="ab-row"><span class="rn"><span class="pc"></span>Medicina</span><span class="rv">+5</span></div>
+        <div class="ab-row"><span class="rn">Percepción</span><span class="rv">+3</span></div>
+        <div class="ab-row"><span class="rn">Supervivencia</span><span class="rv">+3</span></div>
+        <div class="ab-row"><span class="rn">T. con Animales</span><span class="rv">+3</span></div>
+      </div>
+    </div>
+    <div class="abil">
+      <div class="ab-top"><div class="name">Carisma</div><div class="mod">−2</div><span class="score">7</span></div>
+      <div class="ab-list">
+        <div class="ab-row sv"><span class="rn"><span class="pc"></span>Salvación</span><span class="rv">+0</span></div>
+        <div class="ab-row"><span class="rn">Engaño</span><span class="rv">−2</span></div>
+        <div class="ab-row"><span class="rn">Interpretación</span><span class="rv">−2</span></div>
+        <div class="ab-row"><span class="rn">Intimidación</span><span class="rv">−2</span></div>
+        <div class="ab-row"><span class="rn">Persuasión</span><span class="rv">−2</span></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--ink-3);margin:-4px 0 18px"><span class="pc" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--violet);vertical-align:middle"></span> Competencia (+2) · <b style="color:var(--violet)">Salvaciones competentes:</b> Sabiduría y Carisma (Clériga como clase).</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3><span class="dot"></span> Ataques y Trucos Ofensivos</h3>
+      <table>
+        <thead><tr><th>Ataque</th><th>Bono / CD</th><th>Daño</th><th>Notas</th></tr></thead>
+        <tbody>
+          <tr><td>Shield of the Cavalier +1</td><td class="mono">+4</td><td class="mono">1d6+2</td><td>1d6+1 mágico + mod. Fue · empuja 10 ft · derriba si es Pequeño</td></tr>
+          <tr><td>Llama Sagrada</td><td class="mono">CD 13</td><td class="mono">1d8 rad.</td><td>Salv. Destreza · ignora cobertura</td></tr>
+          <tr><td>Palabra de Resplandor</td><td class="mono">CD 13</td><td class="mono">1d6 rad.</td><td>Salv. Constitución</td></tr>
+          <tr><td>Dardo Guía</td><td class="mono">+5</td><td class="mono">4d6 rad.</td><td>Ventaja al sig. atacante</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3><span class="dot"></span> Defensas y Resistencias</h3>
+      <table>
+        <tbody>
+          <tr><td><b>Clase de Armadura</b></td><td class="mono">19</td><td>Cota malla 16 + escudo 2 + Shield +1. Lo que un atacante debe igualar o superar con su tirada para impactarte.</td></tr>
+          <tr><td><b>Resist. Necrótico</b></td><td><span class="pill rose">Celestial</span></td><td>Sufres <b>la mitad</b> del daño necrótico (energía de muerte/marchitamiento). Rasgo Aasimar.</td></tr>
+          <tr><td><b>Resist. Radiante</b></td><td><span class="pill gold">Celestial</span></td><td>Sufres <b>la mitad</b> del daño radiante (luz sagrada). Rasgo Aasimar.</td></tr>
+          <tr><td><b>Visión Oscuridad</b></td><td class="mono">60 ft</td><td>Ves en luz tenue como si fuera brillante, y en oscuridad como si fuera tenue (en grises) hasta 18 m.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grp-head" style="margin-top:24px">
+    <div class="gh-row"><span class="gt">Estados que aplica o cura</span><span class="gline"></span></div>
+    <div class="gh-note">Definiciones oficiales PHB 2024 de los estados que tocan los conjuros y rasgos de Auriana.</div>
+  </div>
+  <div class="card">
+    <dl class="defs">
+      <div class="def apply"><dt>Asustado <span class="tag">aplica</span></dt><dd>Desventaja en pruebas y ataques mientras vea la fuente del miedo. No puede acercarse voluntariamente a ella. <b>Lo causa Expulsar Muertos.</b></dd></div>
+      <div class="def apply"><dt>Incapacitado <span class="tag">aplica</span></dt><dd>Sin acciones, acciones adicionales ni reacciones. No puede concentrarse. <b>Lo causa Expulsar Muertos</b> (junto con Asustado).</dd></div>
+      <div class="def cure"><dt>Cegado <span class="tag">cura</span></dt><dd>No ve, falla pruebas que requieran vista. Sus ataques con desventaja; los ataques contra él con ventaja. <b>Lo quita Restablecimiento Menor.</b></dd></div>
+      <div class="def cure"><dt>Ensordecido <span class="tag">cura</span></dt><dd>No oye y falla pruebas que requieran oído. <b>Lo quita Restablecimiento Menor.</b></dd></div>
+      <div class="def cure"><dt>Envenenado <span class="tag">cura</span></dt><dd>Desventaja en tiradas de ataque y pruebas de característica. <b>Lo quita Restablecimiento Menor</b> (o la Antitoxina previene la salvación).</dd></div>
+      <div class="def cure"><dt>Paralizado <span class="tag">cura</span></dt><dd>Incapacitado, no se mueve ni habla. Falla salvaciones de Fuerza y Destreza. Golpes a 1,5 m son críticos. <b>Lo quita Restablecimiento Menor.</b></dd></div>
+    </dl>
+  </div>
+
+  <div class="grp-head" style="margin-top:24px">
+    <div class="gh-row"><span class="gt">Acciones básicas en tu turno</span><span class="gline"></span></div>
+    <div class="gh-note">Lo que puede hacer cualquier personaje cada turno, sin gastar recursos.</div>
+  </div>
+  <div class="card">
+    <dl class="defs">
+      <div class="def"><dt>Atacar</dt><dd>Un ataque con la maza o un truco ofensivo (Llama Sagrada). Auriana no tiene Ataque Adicional.</dd></div>
+      <div class="def"><dt>Lanzar Conjuro <span class="en">Magic</span></dt><dd>Lanzas un conjuro con tiempo de lanzamiento de 1 acción, o usas Canalizar Divinidad.</dd></div>
+      <div class="def"><dt>Destrabarse <span class="en">Disengage</span></dt><dd>Tu movimiento este turno no provoca ataques de oportunidad al alejarte de enemigos.</dd></div>
+      <div class="def"><dt>Esquivar <span class="en">Dodge</span></dt><dd>Hasta tu próximo turno, los ataques contra ti tienen desventaja y tú tienes ventaja en salvaciones de Destreza.</dd></div>
+      <div class="def"><dt>Correr <span class="en">Dash</span></dt><dd>Ganas movimiento extra igual a tu velocidad (otros 9 m) este turno.</dd></div>
+      <div class="def"><dt>Ayudar <span class="en">Help</span></dt><dd>Das ventaja a un aliado en su próxima prueba o ataque, o estabilizas a un caído (con Medicina o kit).</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- CONJUROS (incluye toda la curación mágica) -->
+<section id="conjuros">
+  <div class="sec-head"><span class="n">02</span><h2>Conjuros</h2></div>
+
+  <div class="grid g3" style="margin-bottom:14px">
+    <div class="tile gold"><div class="lbl">Mod. Conjuro</div><div class="val">+3</div></div>
+    <div class="tile gold"><div class="lbl">CD Salvación</div><div class="val">13</div></div>
+    <div class="tile accent"><div class="lbl">Bono Ataque</div><div class="val">+5</div></div>
+  </div>
+
+  <div class="slots" style="margin-bottom:22px">
+    <div class="slot-grp">
+      <span class="sl-lbl">Espacios Nivel 1</span>
+      <span class="pips"><i class="pip"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i></span>
+      <span class="ct">×4</span>
+    </div>
+    <div class="slot-div"></div>
+    <div class="slot-grp">
+      <span class="sl-lbl">Espacios Nivel 2</span>
+      <span class="pips"><i class="pip"></i><i class="pip"></i></span>
+      <span class="ct">×2</span>
+    </div>
+    <div class="slot-div"></div>
+    <div class="slot-grp">
+      <span class="sl-lbl">Se recuperan en descanso largo</span>
+    </div>
+  </div>
+
+  <div class="grp-head">
+    <div class="gh-row"><span class="gt">Trucos</span><span class="gc">5 conocidos · siempre listos</span><span class="gline"></span></div>
+    <div class="gh-note">No gastan espacios ni cupo de preparados. Se lanzan ilimitadamente.</div>
+  </div>
+  <div class="grid g3" style="margin-bottom:24px">
+    <div class="fcard dmg"><div class="ftop"><span class="fname">Llama Sagrada</span><span class="fmeta">1d8</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 18 m</span></div>
+      <div class="fdesc">El objetivo hace salvación de <b>Destreza</b> o sufre <b>1d8 radiante</b>. Ignora cobertura.</div>
+      <div class="fscale"><span class="stag">Escala · nivel pj</span><span class="sval">niv 5 <b>2d8</b> · niv 11 <b>3d8</b> · niv 17 <b>4d8</b></span></div></div>
+    <div class="fcard dmg"><div class="ftop"><span class="fname">Palabra de Resplandor</span><span class="fmeta">1d6</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 1.5 m</span></div>
+      <div class="fdesc">Salvación de <b>Constitución</b> o <b>1d6 radiante</b>. Golpea a todas las criaturas que elijas en el área.</div>
+      <div class="fscale"><span class="stag">Escala · nivel pj</span><span class="sval">niv 5 <b>2d6</b> · niv 11 <b>3d6</b> · niv 17 <b>4d6</b></span></div></div>
+    <div class="fcard util"><div class="ftop"><span class="fname">Guía</span><span class="fmeta">+1d4</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Conc.</b> hasta 1 min</span></div>
+      <div class="fdesc">Una criatura suma <b>1d4</b> a <b>una prueba de característica</b> a su elección. Utilidad constante fuera de combate.</div></div>
+    <div class="fcard util"><div class="ftop"><span class="fname">Resistencia</span><span class="fmeta">+1d4</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Conc.</b> hasta 1 min</span></div>
+      <div class="fdesc">Una criatura suma <b>1d4</b> a <b>una tirada de salvación</b>. Protección preventiva.</div></div>
+    <div class="fcard util"><div class="ftop"><span class="fname">Luz</span><span class="fmeta">Aasimar · CAR</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Dur.</b> 1 h</span></div>
+      <div class="fdesc">Un objeto emite <b>luz brillante 6 m</b> + tenue 6 m. Truco de especie (aptitud Carisma).</div></div>
+  </div>
+
+  <div class="grp-head">
+    <div class="gh-row"><span class="gt">Conjuros Preparados</span><span class="gc">4 elegidos · gastan espacio</span><span class="gline"></span></div>
+    <div class="gh-note">Los 4 conjuros que Auriana eligió preparar (cambiables tras descanso largo).</div>
+  </div>
+  <div class="grid g2">
+    <div class="fcard dmg"><div class="ftop"><span class="fname">Dardo Guía</span><span class="fmeta">4d6</span></div>
+      <div class="frow"><span><b>Nivel</b> 1</span><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 36 m</span></div>
+      <div class="fdesc">Ataque de conjuro <b>(+5)</b>. Al impactar: <b>4d6 radiante</b> y el <b>siguiente atacante tiene ventaja</b> contra ese objetivo antes de tu próximo turno. Tu mayor pico de daño.</div>
+      <div class="fcalc dmg"><span class="lab">Daño</span><b>4d6</b> radiante · prom. <b>≈14</b> + ventaja para aliado</div>
+      <div class="fscale"><span class="stag">Espacio sup.</span><span class="sval">+1d6 por nivel · con espacio <b>niv 2 → 5d6</b></span></div></div>
+    <div class="fcard heal"><div class="ftop"><span class="fname">Palabra de Curación</span><span class="fmeta big">1d4+3</span></div>
+      <div class="frow"><span><b>Nivel</b> 1</span><span><b>Acción</b> Adicional</span><span><b>Alcance</b> 18 m</span><span><b>Comp.</b> V</span></div>
+      <div class="fdesc">Una criatura que veas recupera <b>1d4 + Sabiduría (+3)</b> a distancia. Ideal para levantar a un aliado a 0 PG sin gastar tu acción.</div>
+      <div class="fcalc"><span class="lab">Curación efectiva (espacio nivel 1)</span>1d4+3 <b>+3</b> Discípulo = <b>1d4 + 6</b> · prom. <b>≈8.5 PG</b></div>
+      <div class="fscale"><span class="stag">Espacio sup.</span><span class="sval">+1d4 por nivel · con espacio <b>niv 2 → 2d4+3</b> (efec. 2d4+7)</span></div></div>
+    <div class="fcard buff"><div class="ftop"><span class="fname">Bendición</span><span class="fmeta">+1d4</span></div>
+      <div class="frow"><span><b>Nivel</b> 1</span><span><b>Acción</b> Mágica</span><span><b>Conc.</b> 1 min</span><span><b>Comp.</b> V,S,M</span></div>
+      <div class="fdesc">Hasta <b>3 criaturas</b> suman <b>1d4</b> a <b>tiradas de ataque y salvación</b> mientras dure. Buff de equipo por excelencia.</div></div>
+    <div class="fcard buff"><div class="ftop"><span class="fname">Escudo de Fe</span><span class="fmeta">+2 CA</span></div>
+      <div class="frow"><span><b>Nivel</b> 1</span><span><b>Acción</b> Adicional</span><span><b>Alcance</b> 18 m</span><span><b>Conc.</b> 10 min</span></div>
+      <div class="fdesc">Una criatura gana <b>+2 a la CA</b> durante 10 min (concentración). Protege al aliado en vanguardia.</div></div>
+  </div>
+
+  <div class="grp-head" style="margin-top:24px">
+    <div class="gh-row"><span class="gt">Conjuros de Dominio</span><span class="gc dom">4 · siempre preparados</span><span class="gline"></span></div>
+    <div class="gh-note"><b>No ocupan</b> tu cupo de 4 preparados, pero sí cuentan como conjuros de clériga. Regalo del Dominio de la Vida.</div>
+  </div>
+  <div class="grid g2">
+    <div class="fcard heal"><div class="ftop"><span class="fname">Curar Heridas</span><span class="fmeta big">2d8+3</span></div>
+      <div class="frow"><span><b>Nivel</b> 1</span><span><b>Acción</b> Mágica</span><span><b>Alcance</b> Toque</span><span><b>Comp.</b> V, S</span></div>
+      <div class="fdesc">Una criatura que tocas recupera <b>2d8 + tu mod. de Sabiduría (+3)</b>.</div>
+      <div class="fcalc"><span class="lab">Curación efectiva (espacio nivel 1)</span>2d8+3 <b>+3</b> Discípulo = <b>2d8 + 6</b> · prom. <b>≈15 PG</b></div>
+      <div class="fscale"><span class="stag">Espacio sup.</span><span class="sval">+2d8 por nivel · con espacio <b>niv 2 → 4d8+3</b> (efec. 4d8+7)</span></div></div>
+    <div class="fcard buff"><div class="ftop"><span class="fname">Bendición</span><span class="fmeta">+1d4</span></div>
+      <div class="frow"><span><b>Nivel</b> 1</span><span><b>Acción</b> Mágica</span><span><b>Conc.</b> 1 min</span></div>
+      <div class="fdesc">Hasta 3 criaturas suman <b>1d4</b> a tiradas de ataque y salvación. <span style="color:var(--ink-3)">(También está en tus preparados — el Dominio te la regala igual.)</span></div></div>
+    <div class="fcard heal"><div class="ftop"><span class="fname">Auxilio</span><span class="fmeta big">+5 PG máx</span></div>
+      <div class="frow"><span><b>Nivel</b> 2</span><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 9 m</span><span><b>Dur.</b> 8 h</span></div>
+      <div class="fdesc">Hasta <b>3 criaturas</b> aumentan su PG máximo y actual en <b>+5</b> durante 8 horas. Buff de aguante prolongado — se lanza antes de la pelea.</div></div>
+    <div class="fcard buff"><div class="ftop"><span class="fname">Restablecimiento Menor</span><span class="fmeta">Cura estado</span></div>
+      <div class="frow"><span><b>Nivel</b> 2</span><span><b>Acción</b> Mágica</span><span><b>Alcance</b> Toque</span><span><b>Comp.</b> V, S</span></div>
+      <div class="fdesc">Termina <b>una enfermedad</b> o <b>una condición</b>: Cegado, Ensordecido, Envenenado o Paralizado. Soporte clave contra estados.</div></div>
+  </div>
+
+  <div class="callout" style="margin-top:22px">
+    <h3>◆ Discípulo de la Vida — tu curación mágica suma más</h3>
+    <ul style="margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-2);line-height:1.7">
+      <li>Todo <b>conjuro con espacio que cure PG</b> recupera <b>+2 + nivel del espacio</b> extra, solo en el turno que lo lanzas (espacio nivel 1 → <b>+3 PG</b>). Los números "efectivos" de las fichas ya lo incluyen.</li>
+      <li><b>Palabra de Curación</b> es Acción Adicional: cura a distancia y aún te queda la acción para un truco como Llama Sagrada. <b>Regla 2024:</b> con un conjuro de Acción Adicional, el único otro conjuro ese turno es un truco (no otro con espacio).</li>
+      <li>La <b>dote Repetir tiradas de curación</b> te deja volver a tirar cualquier dado de curación si sale un 1.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CANALIZAR DIVINIDAD -->
+<section id="canalizar">
+  <div class="sec-head"><span class="n">03</span><h2>Canalizar Divinidad</h2></div>
+  <div class="grid g3" style="margin-bottom:14px">
+    <div class="tile accent"><div class="lbl">Usos disponibles</div><div class="val">2</div></div>
+    <div class="fcard heal" style="grid-column:span 2"><div class="ftop"><span class="fname">Chispa Divina</span><span class="fmeta big">1d8+3</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 9 m</span><span><b>Coste</b> 1 uso</span></div>
+      <div class="fdesc">Diriges energía a una criatura y tiras <b>1d8 + Sabiduría (+3)</b>. Eliges entre dos usos:<br>• <b>Curar</b> ese total en PG, o<br>• <b>Dañar:</b> salvación de Constitución; si falla sufre ese total (necrótico o radiante, tu elección), si la supera, la mitad.</div>
+      <div class="fcalc"><span class="lab">Curar o dañar</span><b>1d8 + 3</b> · prom. <b>≈7.5</b> · flexible cada uso</div>
+      <div class="fscale"><span class="stag">Escala · nivel pj</span><span class="sval">niv 7 <b>2d8+3</b> · niv 13 <b>3d8+3</b> · niv 18 <b>4d8+3</b></span></div></div>
+  </div>
+  <div class="grid g2">
+    <div class="fcard heal"><div class="ftop"><span class="fname">Preservar Vida</span><span class="fmeta big">15 PG</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 9 m</span><span><b>Coste</b> 1 uso</span></div>
+      <div class="fdesc">Generas <b>5 × nivel clérigo = 15 PG</b> y los repartes entre criaturas <b>maltrechas (Bloodied)</b> a 9 m, incluida tú. <b>No sube a nadie por encima de la mitad de su PG máximo.</b> Tu botón anti-TPK: sanación de grupo sin gastar espacios.</div>
+      <div class="fcalc"><span class="lab">Reserva</span><b>15 PG</b> a repartir · solo criaturas a mitad de vida o menos</div></div>
+    <div class="fcard dmg"><div class="ftop"><span class="fname">Expulsar Muertos Vivientes</span><span class="fmeta">CD 13</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 9 m</span><span><b>Coste</b> 1 uso</span></div>
+      <div class="fdesc">Cada No-Muerto a tu elección dentro de 9 m hace salvación de <b>Sabiduría</b>. Si falla: queda <b>Asustado e Incapacitado</b> 1 minuto y trata de alejarse de ti. Termina antes si la criatura sufre daño.</div>
+      <div class="fcalc" style="background:var(--gold-soft);border-color:var(--gold-l)"><span class="lab" style="color:var(--gold-d)">A nivel 5</span>sumarás <b style="color:var(--gold-d)">Abrasar Muertos Vivientes</b>: 1d8 × Sabiduría de daño radiante.</div></div>
+  </div>
+</section>
+
+<!-- RASGOS -->
+<section id="rasgos">
+  <div class="sec-head"><span class="n">04</span><h2>Rasgos y Competencias</h2></div>
+
+  <div class="grp-head"><span class="gt">Especie — Aasimar</span><span class="gc">5 rasgos celestiales</span><span class="gline"></span></div>
+  <div class="grid g3" style="margin-bottom:14px">
+    <div class="fcard dmg"><div class="ftop"><span class="fname">Resistencia Celestial</span><span class="fmeta">pasivo</span></div>
+      <div class="fdesc">Tienes <b>resistencia al daño necrótico y al daño radiante</b> — sufres la mitad. Muy útil contra no-muertos y conjuros sagrados/profanos.</div></div>
+    <div class="fcard util"><div class="ftop"><span class="fname">Visión en la Oscuridad</span><span class="fmeta">60 ft</span></div>
+      <div class="fdesc">Ves en luz tenue como si fuera brillante, y en oscuridad como si fuera luz tenue (en grises) hasta <b>60 pies</b>.</div></div>
+    <div class="fcard heal"><div class="ftop"><span class="fname">Manos Curativas</span><span class="fmeta">2d4 · 1×día</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> Toque</span></div>
+      <div class="fdesc">Tocas a una criatura y tiras <b>d4 igual a tu competencia (2 → 2d4)</b>; recupera ese total en PG. <b>1 vez por descanso largo</b>. No gasta espacio de conjuro.</div></div>
+    <div class="fcard util"><div class="ftop"><span class="fname">Portadora de Luz</span><span class="fmeta">truco</span></div>
+      <div class="fdesc">Conoces el truco <b>Luz</b>. Tu aptitud mágica para él es <b>Carisma</b> (no Sabiduría como los demás).</div></div>
+    <div class="fcard buff"><div class="ftop"><span class="fname">Revelación Celestial</span><span class="fmeta">1×día</span></div>
+      <div class="frow"><span><b>Acción</b> Adicional</span><span><b>Dur.</b> 1 min</span></div>
+      <div class="fdesc">A nivel 3+, te transformas <b>1 minuto</b> eligiendo una de las 3 formas de abajo. <b>1 vez por descanso largo</b>. Cada forma da un bono de daño 1×/turno.</div></div>
+  </div>
+  <div class="card" style="margin-bottom:24px">
+    <h3><span class="dot" style="background:var(--rose)"></span> Revelación Celestial — elige la forma al transformar</h3>
+    <table><tbody>
+      <tr><td><b>Alas Celestiales</b></td><td>Te salen alas: ganas <b>vuelo temporal</b> igual a tu velocidad. Bono: <b>+2 daño radiante</b> una vez por turno.</td></tr>
+      <tr><td><b>Resplandor Interior</b></td><td>Emites <b>luz brillante 10 ft</b> + tenue 10 ft más. Al final de cada turno tuyo, enemigos a 10 ft sufren <b>+2 radiante</b>. Bono: +2 daño radiante 1×/turno.</td></tr>
+      <tr><td><b>Sudario Necrótico</b></td><td>Enemigos a 10 ft hacen salvación de <b>Carisma (CD 8 + CAR + competencia)</b> o quedan <b>Asustados</b> hasta tu próximo turno. Bono: +2 necrótico 1×/turno.</td></tr>
+    </tbody></table>
+    <p style="font-size:12px;color:var(--ink-3);margin-top:10px">⚠ Con CHA −2, el Sudario tiene CD baja (8 − 2 + 2 = <b>8</b>), poco fiable. <b>Alas</b> (movilidad) o <b>Resplandor</b> (daño de área) rinden mucho más para Auriana.</p>
+  </div>
+
+  <div class="grp-head"><span class="gt">Clase — Clériga · Dominio de la Vida</span><span class="gc dom">nivel 3</span><span class="gline"></span></div>
+  <div class="grid g2" style="margin-bottom:14px">
+    <div class="fcard buff"><div class="ftop"><span class="fname">Orden Divina: Protector</span><span class="fmeta">nivel 1</span></div>
+      <div class="fdesc">Al elegir Protector ganaste <b>competencia con armas marciales</b> y entrenamiento con <b>armadura pesada</b> — por eso puedes vestir la cota de malla y pelear en vanguardia.</div></div>
+    <div class="fcard buff"><div class="ftop"><span class="fname">Canalizar Divinidad</span><span class="fmeta">2 usos</span></div>
+      <div class="frow"><span><b>Recupera</b> 1 en desc. corto</span><span><b>Todos</b> en largo</span><span><b>CD</b> 13</span></div>
+      <div class="fdesc">Energía divina que alimenta tus efectos: <b>Chispa Divina</b>, <b>Expulsar Muertos</b> y <b>Preservar Vida</b> (ver secciones Canalizar y Curación). Eliges cuál al usarla.</div></div>
+    <div class="fcard heal"><div class="ftop"><span class="fname">Discípulo de la Vida</span><span class="fmeta">nivel 3</span></div>
+      <div class="fdesc">Cuando un <b>conjuro con espacio</b> restaura PG a una criatura, recupera <b>+2 + el nivel del espacio</b> de PG adicionales, <b>solo en el turno que lanzas</b> el conjuro. Con espacio nivel 1 → +3 PG.</div></div>
+    <div class="fcard heal"><div class="ftop"><span class="fname">Preservar Vida</span><span class="fmeta">Canalizar</span></div>
+      <div class="frow"><span><b>Acción</b> Mágica</span><span><b>Alcance</b> 9 m</span></div>
+      <div class="fdesc">Gastas un uso de Canalizar para generar <b>5 × tu nivel = 15 PG</b>, repartidos entre criaturas <b>maltrechas</b> a 9 m (incluida tú). Ninguna pasa de la <b>mitad</b> de su PG máximo.</div></div>
+  </div>
+  <div class="card" style="margin-bottom:8px;background:var(--gold-soft);border-color:var(--gold-l)">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-d);margin-bottom:6px">Próximos hitos de Clériga</div>
+    <p style="font-size:12.5px;color:var(--ink-2)"><b>Nivel 4:</b> Mejora de característica (o dote). <b>Nivel 5:</b> Abrasar Muertos Vivientes (Expulsar suma 1d8 × Sabiduría de daño radiante) y Golpes Benditos. <b>Nivel 6:</b> Sanador Bendito (cuando curas a otros con un espacio, tú también recuperas +2 + nivel del espacio). <b>Nivel 7:</b> Chispa Divina sube a 2d8.</p>
+  </div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card">
+      <h3><span class="dot" style="background:var(--rose)"></span> Dote — Sanador <span style="font-size:11px;font-weight:400;color:var(--ink-3)">(de origen)</span></h3>
+      <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:10px"><b>Médico de batalla.</b> Si tienes útiles de sanador, puedes gastar un uso y tratar a una criatura a 1,5 m o menos como <b>acción de Utilizar</b>. La criatura gasta uno de sus dados de puntos de golpe; tú tiras ese dado y la criatura recupera PG iguales al <b>resultado + tu bonificador de competencia (+2)</b>.</p>
+      <p style="font-size:13.5px;color:var(--ink-2)"><b>Repetir tiradas de curación.</b> Siempre que tires un dado para determinar cuántos PG restauras con un conjuro o con médico de batalla, puedes <b>volver a tirarlo si sacas un 1</b> (debes usar el nuevo resultado).</p>
+    </div>
+    <div class="card">
+      <h3><span class="dot" style="background:var(--violet)"></span> Competencias e Idiomas</h3>
+      <table><tbody>
+        <tr><td>Armadura</td><td><span class="pill">Ligera</span> <span class="pill">Media</span> <span class="pill">Pesada</span> <span class="pill">Escudos</span></td></tr>
+        <tr><td>Armas</td><td><span class="pill">Simples</span> <span class="pill">Marciales</span></td></tr>
+        <tr><td>Herramientas</td><td>Kit de Herbolaria <span class="pill gold">INT · identificar planta CD 10</span></td></tr>
+        <tr><td>Habilidades</td><td><b>Competente:</b> Historia, Religión, Perspicacia, Medicina <span class="pill violet">tabla completa en Combate</span></td></tr>
+        <tr><td>Idiomas</td><td>Común · Celestial</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="sec-head"><span class="n">05</span><h2>Equipo</h2></div>
+
+  <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:16px;align-items:start">
+    <div>
+      <div class="grp-head" style="margin-top:0">
+        <div class="gh-row"><span class="gt">Objetos equipados</span><span class="gline"></span></div>
+      </div>
+      <div class="grid g2">
+        <div class="eq-card">
+          <div class="eq-head"><span class="eq-slot">Cuerpo</span><span class="eq-badge">Equipada</span></div>
+          <div class="eq-name">Cota de Malla</div>
+          <div class="eq-desc">Armadura pesada. <b>CA base 16</b> (no suma Destreza). Desventaja en Sigilo.</div>
+        </div>
+        <div class="eq-card">
+          <div class="eq-head"><span class="eq-slot">Brazo</span><span class="eq-badge">Equipado</span></div>
+          <div class="eq-name">Shield of the Cavalier +1</div>
+          <div class="eq-desc"><b>+2 CA</b> (escudo) <b>+1</b> mágico. Golpe 1d6+1 + Fuerza, empuja 10 ft; derriba si el objetivo es Pequeño o menor. No requiere sintonización.</div>
+        </div>
+        <div class="eq-card">
+          <div class="eq-head"><span class="eq-slot">Arma</span><span class="eq-badge">Equipada</span></div>
+          <div class="eq-name">Maza</div>
+          <div class="eq-desc"><b>1d6 contundente</b>. Arma simple cuerpo a cuerpo. Ataque con Fuerza (+1).</div>
+        </div>
+        <div class="eq-card special">
+          <div class="eq-head"><span class="eq-slot">Foco</span><span class="eq-badge no">Llevado</span></div>
+          <div class="eq-name">Símbolo Sagrado</div>
+          <div class="eq-desc">Medallón de plata con un fénix. <b>Foco de conjuración divino</b>: sustituye componentes materiales. Llave espiritual narrativa.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="ca-big">
+        <div class="ca-n">19</div>
+        <div class="ca-l">Clase de Armadura</div>
+      </div>
+      <div class="ca-panel">
+        <h3><span class="dot"></span> Desglose de CA</h3>
+        <div class="ca-row"><span>Cota de Malla</span><span class="v">16</span></div>
+        <div class="ca-row"><span>Escudo</span><span class="v">+2</span></div>
+        <div class="ca-row"><span>Shield of the Cavalier +1</span><span class="v">+1</span></div>
+        <div class="ca-row total"><span>CA Total</span><span class="v">19</span></div>
+        <div class="att-row"><span>Sintonización</span>
+          <span class="att-dots"><span class="ad"></span><span class="ad"></span><span class="ad"></span></span>
+          <span style="color:var(--ink-2)">0/3</span>
+        </div>
+      </div>
+      <div class="ca-panel">
+        <h3><span class="dot" style="background:var(--gold)"></span> Monedas</h3>
+        <div class="ca-row"><span>Oro (PO)</span><span class="v">73</span></div>
+        <div class="ca-row total" style="border-top:none"><span style="font-weight:400;color:var(--ink-3);font-size:12px">Sin objetos sintonizados. El Shield +1 no lo requiere.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grp-head" style="margin-top:26px">
+    <div class="gh-row"><span class="gt">Contenedores</span><span class="gline"></span></div>
+  </div>
+  <div class="cont">
+    <div class="cont-head"><span class="cont-name">🎒 Paquete de Sacerdote</span><span class="cont-tag">Equipo de aventura y campamento</span></div>
+    <div class="chips">
+      <span class="ic">Raciones <small>×varios días</small></span>
+      <span class="ic">Manta</span>
+      <span class="ic">Odre de agua</span>
+      <span class="ic">Caja de yesca</span>
+      <span class="ic">Antorchas <small>×10</small></span>
+      <span class="ic">Vela</span>
+      <span class="ic">Vestiduras</span>
+    </div>
+  </div>
+  <div class="cont">
+    <div class="cont-head"><span class="cont-name">⚕️ Cinturón de sanadora</span><span class="cont-tag">Acceso rápido en combate</span></div>
+    <div class="chips">
+      <span class="ic">Kit de Curación <small>(10 usos)</small></span>
+      <span class="ic">Kit de Herbolaria</span>
+      <span class="ic">Poción de Curación <small>2d4+2</small></span>
+      <span class="ic">Antitoxina</span>
+    </div>
+  </div>
+
+  <div class="grp-head" style="margin-top:26px">
+    <div class="gh-row"><span class="gt">Kits y herramientas</span><span class="gc">cómo se usan</span><span class="gline"></span></div>
+    <div class="gh-note">Reglas de uso directo, para no tener que ir al manual en plena sesión.</div>
+  </div>
+  <div class="grid g3">
+    <div class="fcard heal"><div class="ftop"><span class="fname">Kit de Curación</span><span class="fmeta">10 usos</span></div>
+      <div class="frow"><span><b>Acción</b> Utilizar</span><span><b>Sin tirada</b></span></div>
+      <div class="fdesc">Gastas <b>1 uso</b> para <b>estabilizar</b> a una criatura inconsciente a 0 PG, sin tirar Medicina. <b>No cura PG por sí solo.</b> Es lo que tu dote <b>Sanador</b> consume para el Médico de batalla (que sí cura).</div>
+      <div class="fcalc"><span class="lab">Recuerda</span>10 usos · repón comprando otro kit o fabricándolo con Herbolaria</div></div>
+
+    <div class="fcard util"><div class="ftop"><span class="fname">Kit de Herbolaria</span><span class="fmeta">INT</span></div>
+      <div class="frow"><span><b>Acción</b> Utilizar</span><span><b>Aptitud</b> Inteligencia</span></div>
+      <div class="fdesc"><b>Utilizar:</b> identificar una planta (CD 10). Eres competente → sumas <b>+2</b> a la prueba. <b>Fabricar:</b> Antitoxina, Vela, Kit de Curación y <b>Poción de Curación</b> (25 PO de material + 1 día de trabajo).</div>
+      <div class="fcalc"><span class="lab">Prueba</span>INT +0 <b>+2</b> competencia = <b>+2</b> para identificar plantas</div></div>
+
+    <div class="fcard"><div class="ftop"><span class="fname">Poción de Curación</span><span class="fmeta">2d4+2</span></div>
+      <div class="frow"><span><b>Acción</b> Adicional</span><span><b>Bebes o das</b></span></div>
+      <div class="fdesc">Recupera <b>2d4 + 2 PG</b> (prom. ≈7). Beberla es Acción Adicional; <b>administrarla a otro</b> es una acción de Utilizar. Consumible — no es un conjuro, no aplica Discípulo de la Vida.</div></div>
+
+    <div class="fcard"><div class="ftop"><span class="fname">Antitoxina</span><span class="fmeta">1 hora</span></div>
+      <div class="frow"><span><b>Acción</b> Adicional</span><span><b>Bebes</b></span></div>
+      <div class="fdesc">Al beberla, tienes <b>ventaja en salvaciones contra Envenenado</b> durante <b>1 hora</b>. No otorga resistencia al daño de veneno, solo a la condición.</div></div>
+
+    <div class="fcard"><div class="ftop"><span class="fname">Símbolo Sagrado</span><span class="fmeta">foco</span></div>
+      <div class="frow"><span><b>Medallón de plata</b></span><span><b>Fénix</b></span></div>
+      <div class="fdesc">Tu <b>foco de conjuración divino</b>: sustituye los componentes materiales sin coste de tus conjuros. Debes tenerlo en la mano (o visible) para lanzar. Es además tu llave espiritual narrativa.</div></div>
+
+    <div class="fcard"><div class="ftop"><span class="fname">Paquete de Sacerdote</span><span class="fmeta">set</span></div>
+      <div class="frow"><span><b>Equipo de aventura</b></span></div>
+      <div class="fdesc">Incluye mochila, manta, raciones (varios días), odre, caja de yesca, antorchas, vela, y vestiduras. El kit básico de supervivencia en ruta.</div></div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section id="historia">
+  <div class="sec-head"><span class="n">06</span><h2>Crónica de la Luz Naciente</h2></div>
+
+  <div class="lore">
+    <div class="chronicle">
+      <p>Auriana nació durante una noche imposible: el cielo sin luna, y sobre su aldea una aurora de tonos rosados, dorados y violetas que no se veía en generaciones. Algunos la leyeron como señal del alba; otros, como bendición directa de <b>The Everlight</b>, diosa de la luz, la curación, la compasión y la redención. Su aldea no tenía reyes ni jerarquías: el valor de cada persona se medía por su disposición a ayudar. Creció con un mantra silencioso — <i>nadie sana solo, nadie vive solo, nadie debe ser dejado atrás</i>.</p>
+
+      <h3>El origen celestial</h3>
+      <p>Generaciones atrás, su antepasada <b>Maera del Alba Serena</b> se negó a abandonar a los enfermos durante una gran plaga. En sus últimos días encendió una lámpara frente a un templo derruido y pidió a The Everlight no poder ni gloria, sino una última oportunidad para aliviar el dolor. Esa noche descendió <b>Ilyrien, la Llama Compasiva</b>, emisario de la diosa, que bendijo su sacrificio: su linaje llevaría una chispa de luz en el alma, no como premio sino como responsabilidad.</p>
+      <p>Por eso la piel de Auriana brilla sutil como si la luz del amanecer descansara bajo ella, sus ojos viran de violeta pálido a dorado cuando sana, y el dolor ajeno la alcanza con una fuerza que al principio sintió como herida. A los cinco años sanó a un ciervo herido con solo un susurro. Sus padres cuidaron de no tratarla como una santa: <i>«La luz no te pertenece, Auriana. Pasa a través de ti. Tu deber es no cerrarle el paso.»</i></p>
+
+      <h3>El llamado y el Santuario del Alba</h3>
+      <p>Su primera formación fue en un monasterio de The Everlight, donde la hermana <b>Calithra</b> le enseñó a manejar su empatía: sentir sin perderse, ayudar sin destruirse. A los diez años, el sacerdote itinerante <b>Ser Arveth Dalan</b> reconoció que su don necesitaba guía profunda y la llevó al <b>Santuario del Alba</b>, oculto entre bosques y niebla, con un manantial cuyas aguas respondían a la intención de quien las usaba. Allí su mentor, el <b>Maestro Erynd Valcor</b>, la desafió como nadie y le dejó grabada una lección: <i>«No confundas compasión con rendición. La luz también debe saber ponerse de pie.»</i></p>
+
+      <h3>Las tres pruebas</h3>
+      <p>Para ser consagrada Guardiana superó tres pruebas. En la <b>Prueba de la Luz</b> meditó un día entero sin respuesta, hasta comprender que la fe consiste en permanecer cuando no hay señal — y vio en el horizonte un fénix de fuego abrir las alas. En la <b>Prueba de la Vida</b> salvó a una loba preñada atrapada, sin magia, solo con hierbas y paciencia. En la <b>Prueba del Perdón</b> reconcilió a dos comunidades enfrentadas, sanando una herida de memoria. Recibió entonces su <b>medallón de plata con un fénix en llamas</b>: la plata no produce luz, la refleja — ella no es la fuente, es su portadora. Erynd le reveló que el medallón es también una <b>llave espiritual</b> que mostrará su propósito a su hora.</p>
+
+      <h3>La visión y la partida</h3>
+      <p>Tras purificar con tres días de ayuno una <b>corrupción de hielo</b> que enfrió el manantial — primera señal de algo mayor moviéndose en la oscuridad —, Auriana tuvo una visión. The Everlight le mostró el <b>Espejo de la Vida</b>: un artefacto antiguo, roto, sus fragmentos dispersos guardando memoria, perdón, sacrificio y esperanza. No recibió una orden, sino una elección: quedarse, o salir a sanar una herida mucho mayor. Partió al amanecer con su medallón, su escudo y las hierbas de su madre. No por gloria — <i>porque el mundo estaba herido, y ella no podía fingir que no lo sentía.</i></p>
+    </div>
+
+    <div class="lore-sub">Apariencia y carácter</div>
+    <div class="motiv">
+      <p style="font-size:13.5px;color:var(--ink-2);margin:0">Aasimar de piel iridiscente y cabello plateado; ojos de violeta pálido que se tornan dorados al sanar o rezar. Viste túnicas claras bajo armadura ceremonial de marfil y plata, con el fénix grabado en su escudo. <b>Serena, compasiva y firme.</b> Rara vez alza la voz, pero cuando habla desde la fe, incluso quienes no creen suelen escuchar. Busca siempre la salida pacífica — pero ya no confunde misericordia con pasividad: si una vida inocente está en peligro, se interpone.</p>
+    </div>
+    <div class="quotes">
+      <div class="quote">«La luz no te pertenece. Pasa a través de ti. Tu deber es no cerrarle el paso.»</div>
+      <div class="quote">«Sanar no significa borrar toda herida. Significa impedir que la herida sea lo único que queda.»</div>
+    </div>
+    <div class="motiv" style="margin-top:10px">
+      <p style="font-size:13.5px;color:var(--ink-2);margin:0"><b>Virtud y defecto:</b> su mayor fortaleza es la empatía — y también su mayor debilidad. Le cuesta abandonar a quien sufre, aceptar que no puede salvar a todos, y a veces carga culpas que no le pertenecen. Teme que su luz no baste para la oscuridad que ha visto. Pero sigue caminando.</p>
+    </div>
+
+    <div class="lore-sub">Personajes clave</div>
+    <div class="npcs">
+      <div class="npc">
+        <div class="nn">Maestro Erynd Valcor</div>
+        <div class="nd">Su mentor en el Santuario del Alba: estricto, justo y devoto. Le enseñó a elegir, a proteger y a conocer sus límites. Lo quiere como a un segundo padre.</div>
+        <span class="nbadge mentor">Mentor</span>
+      </div>
+      <div class="npc">
+        <div class="nn">Ser Arveth Dalan</div>
+        <div class="nd">Sacerdote itinerante de The Everlight que reconoció su don a los diez años y la llevó al Santuario. De pocas palabras, decía la verdad sin adornarla.</div>
+        <span class="nbadge mentor">Mentor</span>
+      </div>
+      <div class="npc">
+        <div class="nn">Hermana Calithra</div>
+        <div class="nd">Monja que le enseñó los ejercicios de respiración y oración para no ahogarse en el dolor ajeno. Su primera guía espiritual.</div>
+        <span class="nbadge aliada">Aliada</span>
+      </div>
+      <div class="npc">
+        <div class="nn">Ilyrien, la Llama Compasiva</div>
+        <div class="nd">Emisario celestial de The Everlight que bendijo a su antepasada Maera, sembrando la chispa de luz en su linaje. La raíz de su naturaleza aasimar.</div>
+        <span class="nbadge celeste">Celestial</span>
+      </div>
+      <div class="npc">
+        <div class="nn">Maera del Alba Serena</div>
+        <div class="nd">Antepasada sanadora que se negó a abandonar a los enfermos durante una plaga. Su sacrificio originó la bendición del linaje.</div>
+        <span class="nbadge perdido">Ancestro</span>
+      </div>
+      <div class="npc">
+        <div class="nn">La Loba del Santuario</div>
+        <div class="nd">Loba preñada que Auriana salvó sin magia en la Prueba de la Vida. Permaneció cerca del santuario, observándola como señal de respeto silencioso.</div>
+        <span class="nbadge aliada">Compañera</span>
+      </div>
+    </div>
+
+    <div class="lore-sub">Misterios abiertos</div>
+    <div class="mysteries">
+      <div class="mystery"><span class="qm">?</span><span>¿Qué es realmente el Espejo de la Vida, y dónde están sus fragmentos?</span></div>
+      <div class="mystery"><span class="qm">?</span><span>¿Qué origina la corrupción de hielo que enfrió el manantial?</span></div>
+      <div class="mystery"><span class="qm">?</span><span>¿Qué puerta o verdad abre la llave espiritual del medallón del fénix?</span></div>
+      <div class="mystery"><span class="qm">?</span><span>¿Cuál es la "herida mayor" que The Everlight le pidió ir a sanar?</span></div>
+      <div class="mystery"><span class="qm">?</span><span>¿Volverá a ver a Erynd, ya anciano, y al Santuario del Alba?</span></div>
+      <div class="mystery"><span class="qm">?</span><span>¿Qué propósito le revelará The Everlight cuando llegue su hora?</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div style="text-align:center;padding:30px 20px 0;max-width:780px;margin:0 auto">
+  <p style="font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--gold-d);line-height:1.5">"La plata no produce luz propia; la refleja. Yo no soy la fuente — solo me niego a cerrarle el paso."</p>
+</div>
+
+<div class="footer">
+  <b>Auriana Grandhe</b> · Hoja consolidada al Nivel 3 · D&D 2024
+</div>
+
+<script>
+  const links = document.querySelectorAll('.navlinks a');
+  const secs = [...links].map(a => document.querySelector(a.getAttribute('href')));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){
+      const id = e.target.id;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+    }});
+  }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+  secs.forEach(s => s && obs.observe(s));
+</script>
+</body>
+</html>
